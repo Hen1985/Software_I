@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<!-- saved from url=(0096)https://www.datasciencecentral.com/profiles/blogs/predicting-car-prices-part-1-linear-regression -->
+<html lang="en" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" data-cf-welcome-bar-visibility="visible"><head data-layout-view="default" class="xj_layout_head"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/osd.js.descarga"></script><script type="text/javascript" async="" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/analytics.js.descarga"></script><script type="text/javascript" async="" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/atrk.js.descarga"></script><script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/sdk.js.descarga" async="" crossorigin="anonymous"></script><script id="twitter-wjs" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/widgets.js.descarga"></script><script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/720347215081901" async=""></script><script async="" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/fbevents.js.descarga"></script><script type="text/javascript" async="" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/analytics.js.descarga"></script><script type="text/javascript" async="" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/ec.js.descarga"></script><script async="" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/analytics.js.descarga"></script><script async="" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/gtm.js.descarga"></script><script async="" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/gtm.js(1).descarga"></script><script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/aJxZv5Fdgr6vNgaTjCN1-o4U2ZM.js.descarga"></script><script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/upMsO4Res_hp5N0fpqjDYXFF5tA.js.descarga"></script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T5W4WQ');</script>
+
+
+<title>Predicting Car Prices Part 1: Linear Regression - Data Science Central</title>
+<link rel="icon" href="https://www.datasciencecentral.com/favicon.ico" type="image/x-icon">
+<link rel="SHORTCUT ICON" href="https://www.datasciencecentral.com/favicon.ico" type="image/x-icon">
+<meta name="description" content="1. Introduction:
+Let’s walk through an example of predictive analytics using a data set that most people can relate to:prices of cars. In this case, we have a…">
+<meta name="title" content="Predicting Car Prices Part 1: Linear Regression">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.datasciencecentral.com/profiles/blogs/predicting-car-prices-part-1-linear-regression">
+<meta property="og:title" content="Predicting Car Prices Part 1: Linear Regression">
+<meta property="og:image" content="http://storage.ning.com/topology/rest/1.0/file/get/2808295684?profile=original">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Predicting Car Prices Part 1: Linear Regression">
+<meta name="twitter:description" content="1. Introduction:
+Let’s walk through an example of predictive analytics using a data set that most people can relate to:prices of cars. In this case, we have a…">
+<meta name="twitter:image" content="http://storage.ning.com/topology/rest/1.0/file/get/2808295684?profile=original">
+<link rel="image_src" href="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/bor55.PNG">
+<script type="text/javascript">
+    djConfig = { preventBackButtonFix: false, isDebug: false }
+ning = {"CurrentApp":{"premium":true,"iconUrl":"https:\/\/storage.ning.com\/topology\/rest\/1.0\/file\/get\/2751248758?profile=UPSCALE_150x150","url":"httpsdatasciencecentral.ning.com","domains":["www.datasciencecentral.com","datasciencecentral.com"],"online":true,"privateSource":true,"id":"datasciencecentral","appId":"6448529","description":"Welcome to Data Science Central. The Community of and for Data Scientist","name":"Data Science Central","owner":"2edcolrgc4o4b","createdDate":"2011-10-05T21:11:40.055Z","runOwnAds":false,"category":{"Predictive":null,"Business":null,"Data":null,"Analytics":null,"Mining":null,"R":null,"Intelligence":null,"Big":null,"Modeling":null,"Science":null,"Integration":null,"Visualization":null},"tags":["Predictive","Business","Data","Analytics","Mining","R","Intelligence","Big","Modeling","Science","Integration","Visualization"]},"CurrentProfile":null,"maxFileUploadSize":7};
+        (function(){
+            if (!window.ning) { return; }
+
+            var age, gender, rand, obfuscated, combined;
+
+            obfuscated = document.cookie.match(/xgdi=([^;]+)/);
+            if (obfuscated) {
+                var offset = 100000;
+                obfuscated = parseInt(obfuscated[1]);
+                rand = obfuscated / offset;
+                combined = (obfuscated % offset) ^ rand;
+                age = combined % 1000;
+                gender = (combined / 1000) & 3;
+                gender = (gender == 1 ? 'm' : gender == 2 ? 'f' : 0);
+                ning.viewer = {"age":age,"gender":gender};
+            }
+        })();
+
+        if (window.location.hash.indexOf('#!/') == 0) {
+        window.location.replace(window.location.hash.substr(2));
+    }
+    window.xg = window.xg || {};
+xg.captcha = {
+    'shouldShow': false,
+    'siteKey': '6Ldf3AoUAAAAALPgNx2gcXc8a_5XEcnNseR6WmsT'
+};
+xg.addOnRequire = function(f) { xg.addOnRequire.functions.push(f); };
+xg.addOnRequire.functions = [];
+xg.addOnFacebookLoad = function (f) { xg.addOnFacebookLoad.functions.push(f); };
+xg.addOnFacebookLoad.functions = [];
+xg._loader = {
+    p: 0,
+    loading: function(set) {  this.p++; },
+    onLoad: function(set) {
+                this.p--;
+        if (this.p == 0 && typeof(xg._loader.onDone) == 'function') {
+            xg._loader.onDone();
+        }
+    }
+};
+xg._loader.loading('xnloader');
+if (window.bzplcm) {
+    window.bzplcm._profileCount = 0;
+    window.bzplcm._profileSend = function() { if (window.bzplcm._profileCount++ == 1) window.bzplcm.send(); };
+}
+xg._loader.onDone = function() {
+            if(window.bzplcm)window.bzplcm.start('ni');
+        xg.shared.util.parseWidgets();    var addOnRequireFunctions = xg.addOnRequire.functions;
+    xg.addOnRequire = function(f) { f(); };
+    try {
+        if (addOnRequireFunctions) { dojo.lang.forEach(addOnRequireFunctions, function(onRequire) { onRequire.apply(); }); }
+    } catch (e) {
+        if(window.bzplcm)window.bzplcm.ts('nx').send();
+        throw e;
+    }
+    if(window.bzplcm) { window.bzplcm.stop('ni'); window.bzplcm._profileSend(); }
+};
+window.xn = { track: { event: function() {}, pageView: function() {}, registerCompletedFlow: function() {}, registerError: function() {}, timer: function() { return { lapTime: function() {} }; } } };</script>
+<meta name="medium" content="blog"><link rel="alternate" type="application/atom+xml" title="Peter Chen&#39;s Posts - Data Science Central" href="https://www.datasciencecentral.com/profiles/blog/feed?user=339jk12o9w5qx&amp;xn_auth=no"><link rel="alternate" type="application/atom+xml" title="Comments - Predicting Car Prices Part 1: Linear Regression - Data Science Central" href="https://www.datasciencecentral.com/profiles/comment/feed?attachedTo=6448529%3ABlogPost%3A259318&amp;xn_auth=no">
+<style type="text/css" media="screen,projection">
+@import url(https://static.ning.com/socialnetworkmain/widgets/index/css/common-982.min.css?xn_version=1168366271);
+@import url(https://static.ning.com/socialnetworkmain/widgets/profiles/css/component.min.css?xn_version=467783652);
+
+</style>
+<style type="text/css" media="screen,projection">
+@import url(/generated-5f6e953aa65605-88598739-css?xn_version=202009260052);
+
+</style>
+<style type="text/css" media="screen,projection">
+@import url(/upload-5f9014dc4f6648-38421030-css?xn_version=202009260052);
+
+</style>
+<!--[if IE 6]>
+    <link rel="stylesheet" type="text/css" href="https://static.ning.com/socialnetworkmain/widgets/index/css/common-ie6.min.css?xn_version=463104712" />
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" type="text/css" href="https://static.ning.com/socialnetworkmain/widgets/index/css/common-ie7.css?xn_version=2712659298" />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.datasciencecentral.com/profiles/blog/rsd">
+<style>
+        html {
+          position: relative;
+          top: 58px;
+        }
+      </style><style>
+      cloudflare-app[app="welcome-bar"] {
+        background-color: #ffffff;
+        color: #000000;
+      }
+
+      @media (max-width: 768px) {
+        cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button,
+        cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button:hover,
+        cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button:active {
+          color: #000000;
+        }
+      }
+
+      @media (min-width: 768px) {
+        cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button,
+        cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button:hover,
+        cloudflare-app[app="welcome-bar"][data-style="prominent"] .alert-cta-button:active {
+          background-color: #3c79a7 !important;
+          color: #ffffff !important;
+        }
+      }
+    </style><link rel="stylesheet" href="data:text/css;charset=utf-8;base64,Y2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdLApjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gKiB7CiAgYm94LXNpemluZzogYm9yZGVyLWJveDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIHsKICBkaXNwbGF5OiBub25lOwogIGZvbnQtc2l6ZTogMTJweDsKICBwb3NpdGlvbjogZml4ZWQ7CiAgei1pbmRleDogMTAwMDA7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXS5jZi1pbnZhbGlkIGNmLWRpYWxvZy1jb250ZW50LXRpdGxlLApjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0uY2YtaW52YWxpZCBjZi1kaWFsb2ctY2xvc2UtYnV0dG9uLApjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0uY2YtaW52YWxpZCBjZi1zaWdudXAtdGV4dCwKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdLmNmLWludmFsaWQgaW5wdXRbdHlwZT0ic3VibWl0Il0gewogIC13ZWJraXQtZmlsdGVyOiBibHVyKDJweCk7CiAgICAgICAgICBmaWx0ZXI6IGJsdXIoMnB4KTsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdW2RhdGEtdmlzaWJpbGl0eT0idmlzaWJsZSJdIHsKICBkaXNwbGF5OiBibG9jazsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdW2RhdGEtZ29hbD0ic2lnbnVwU3VjY2VzcyJdIHsKICB0ZXh0LWFsaWduOiBsZWZ0Owp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il1bZGF0YS1nb2FsPSJzaWdudXBTdWNjZXNzIl0gY2YtZGlhbG9nLWNvbnRlbnQtdGV4dCB7CiAgZGlzcGxheTogLW1zLWZsZXhib3g7CiAgZGlzcGxheTogZmxleDsKICAtbXMtZmxleC1mbG93OiBjb2x1bW47CiAgICAgIGZsZXgtZmxvdzogY29sdW1uOwogIC1tcy1mbGV4LXBhY2s6IGxlZnQ7CiAgICAgIGp1c3RpZnktY29udGVudDogbGVmdDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdW2RhdGEtZ29hbD0ic2lnbnVwU3VjY2VzcyJdIGNmLXNpZ251cC10ZXh0IHsKICBkaXNwbGF5OiBibG9jazsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdW2RhdGEtZm9ybT0ic3VibWl0dGluZyJdIGNmLWRpYWxvZywKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdW2RhdGEtZ29hbD0ic3VibWl0dGluZyJdIGlucHV0W3R5cGU9InN1Ym1pdCJdIHsKICBjdXJzb3I6IHdhaXQ7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBjZi1kaWFsb2cgewogIGN1cnNvcjogZGVmYXVsdDsKICBkaXNwbGF5OiBibG9jazsKICB6LWluZGV4OiAyMDAwNTsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIC5jZi1icmFuZGluZywKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIC5jZi1icmFuZGluZzphY3RpdmUsCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSAuY2YtYnJhbmRpbmc6dmlzaXRlZCB7CiAgY29sb3I6ICMxMTEgIWltcG9ydGFudDsKICB0ZXh0LWRlY29yYXRpb246IG5vbmUgIWltcG9ydGFudDsKICB0ZXh0LWluZGVudDogMCAhaW1wb3J0YW50OwogIHBhZGRpbmc6IDAgIWltcG9ydGFudDsKICBmb250LXNpemU6IC44NWVtICFpbXBvcnRhbnQ7CiAgLW1zLWZsZXg6IDEgMCBhdXRvICFpbXBvcnRhbnQ7CiAgICAgIGZsZXg6IDEgMCBhdXRvICFpbXBvcnRhbnQ7CiAgd2lkdGg6IDEwMCUgIWltcG9ydGFudDsKICBkaXNwbGF5OiAtbXMtZmxleGJveCAhaW1wb3J0YW50OwogIGRpc3BsYXk6IGZsZXggIWltcG9ydGFudDsKICAtbXMtZmxleC1wYWNrOiBlbmQgIWltcG9ydGFudDsKICAgICAganVzdGlmeS1jb250ZW50OiBmbGV4LWVuZCAhaW1wb3J0YW50OwogIG1hcmdpbjogMCAhaW1wb3J0YW50OwogIGN1cnNvcjogcG9pbnRlciAhaW1wb3J0YW50OwogIC1tcy1mbGV4LWFsaWduOiBiYXNlbGluZSAhaW1wb3J0YW50OwogICAgICBhbGlnbi1pdGVtczogYmFzZWxpbmUgIWltcG9ydGFudDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIC5jZi1icmFuZGluZzpob3ZlciB7CiAgY29sb3I6ICMxMTEgIWltcG9ydGFudDsKICB0ZXh0LWRlY29yYXRpb246IG5vbmUgIWltcG9ydGFudDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIC5jZi1icmFuZGluZzo6YmVmb3JlIHsKICBjb250ZW50OiAiUG93ZXJlZCBieSI7CiAgbWFyZ2luLXJpZ2h0OiAuNWVtOwogIGZvbnQtd2VpZ2h0OiAzMDA7CiAgZm9udC1mYW1pbHk6ICJPcGVuIFNhbnMiLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gLmNmLWJyYW5kaW5nID4gc3ZnIHsKICBoZWlnaHQ6IC43ZW07CiAgd2lkdGg6IGF1dG87Cn0KCkBtZWRpYSAobWF4LXdpZHRoOiA3NjhweCkgewogIGNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSB7CiAgICBib3R0b206IDA7CiAgICBsZWZ0OiAwOwogICAgcmlnaHQ6IDA7CiAgfQoKICBjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQgewogICAgYm9yZGVyLXRvcDogMXB4IHNvbGlkICNkY2RjZGM7CiAgfQoKICBjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gLmNmLWJyYW5kaW5nIHsKICAgIC1tcy1mbGV4LXBhY2s6IGNlbnRlciAhaW1wb3J0YW50OwogICAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyICFpbXBvcnRhbnQ7CiAgfQp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQgewogIGRpc3BsYXk6IGJsb2NrOwogIGJhY2tncm91bmQ6ICNmZmY7CiAgY29sb3I6ICMzMzM7CiAgbGluZS1oZWlnaHQ6IDEuNjU7CiAgbWF4LXdpZHRoOiAxMDAlOwogIHBvc2l0aW9uOiByZWxhdGl2ZTsKfQoKQG1lZGlhIChtaW4td2lkdGg6IDc2OHB4KSB7CiAgY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIGNmLWRpYWxvZyB7CiAgICBwYWRkaW5nOiAxZW07CiAgfQoKICBjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQgewogICAgYm9yZGVyLXJhZGl1czogMnB4OwogICAgYm94LXNoYWRvdzogMCAwIDAgMXB4IHJnYmEoMCwgMCwgMCwgLjEpLCAwIDVweCAyMHB4IHJnYmEoMCwgMCwgMCwgLjEpOwogICAgd2lkdGg6IDMyZW07CiAgfQoKICBjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il1bZGF0YS1wb3NpdGlvbn49InRvcCJdIHsKICAgIHRvcDogMDsKICB9CgogIGNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXVtkYXRhLXBvc2l0aW9ufj0iYm90dG9tIl0gewogICAgYm90dG9tOiAwOwogIH0KCiAgY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdW2RhdGEtcG9zaXRpb25+PSJsZWZ0Il0gewogICAgbGVmdDogMDsKICB9CgogIGNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXVtkYXRhLXBvc2l0aW9ufj0icmlnaHQiXSB7CiAgICByaWdodDogMDsKICB9Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBjZi1kaWFsb2ctY29udGVudCwKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIGNmLWRpYWxvZy1jb250ZW50ICogewogIGZvbnQtZmFtaWx5OiBpbmhlcml0Owp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQtdGV4dCwKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIGlucHV0W3R5cGU9ImVtYWlsIl0gewogIGNvbG9yOiBpbmhlcml0Owp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQtdGV4dCB7CiAgZGlzcGxheTogYmxvY2s7CiAgcGFkZGluZzogMWVtOwogIC13ZWJraXQtZm9udC1zbW9vdGhpbmc6IGFudGlhbGlhc2VkOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2Ytc2lnbnVwLXRleHQgewogIGRpc3BsYXk6IGJsb2NrOwogIG9wYWNpdHk6IC44OwogIGxpbmUtaGVpZ2h0OiAxLjU7Cn0KCkBtZWRpYSAobWF4LXdpZHRoOiA0ODBweCkgewogIGNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBjZi1kaWFsb2ctY29udGVudC10ZXh0IHsKICAgIHBhZGRpbmc6IDFlbTsKICB9Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBjZi1kaWFsb2ctY29udGVudC10ZXh0ID4gKiB7CiAgdGV4dC1pbmRlbnQ6IDA7CiAgbWFyZ2luOiAxZW0gMDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIGNmLWRpYWxvZy1jb250ZW50LXRleHQgYSB7CiAgdGV4dC1kZWNvcmF0aW9uOiBub25lOwogIGZvbnQtd2VpZ2h0OiBib2xkOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQtdGV4dCA+ICo6Zmlyc3QtY2hpbGQgewogIG1hcmdpbi10b3A6IDA7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBjZi1kaWFsb2ctY29udGVudC10ZXh0ID4gKjpsYXN0LWNoaWxkIHsKICBtYXJnaW4tYm90dG9tOiAwOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQtdGl0bGUgewogIGRpc3BsYXk6IGJsb2NrOwogIGZvbnQtc2l6ZTogMS41ZW07CiAgZm9udC13ZWlnaHQ6IGJvbGQ7CiAgbGluZS1oZWlnaHQ6IDEuMzsKICBtYXJnaW46IDA7CiAgcGFkZGluZy1yaWdodDogMmVtOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNsb3NlLWJ1dHRvbiB7CiAgLXdlYmtpdC1mb250LXNtb290aGluZzogYW50aWFsaWFzZWQ7CiAgZGlzcGxheTogYmxvY2s7CiAgcG9zaXRpb246IGFic29sdXRlOwogIGZvbnQtc2l6ZTogMS4yNWVtOwogIGhlaWdodDogMmVtOwogIGxpbmUtaGVpZ2h0OiAyOwogIHJpZ2h0OiAuNGVtOwogIHRvcDogLjRlbTsKICB3aWR0aDogMmVtOwogIGZvbnQtZmFtaWx5OiBBcmlhbCwgc2Fucy1zZXJpZjsKICB0ZXh0LWFsaWduOiBjZW50ZXI7CiAgY3Vyc29yOiBwb2ludGVyOwogIHotaW5kZXg6IDIwMDA3OwogIGJvcmRlci1yYWRpdXM6IDNweDsKICBjb2xvcjogcmdiYSgwLCAwLCAwLCAuOCk7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBjZi1kaWFsb2ctY2xvc2UtYnV0dG9uOmhvdmVyIHsKICBiYWNrZ3JvdW5kOiByZ2JhKDAsIDAsIDAsIC4xKTsKICBjb2xvcjogIzAwMDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIGNmLWRpYWxvZy1jbG9zZS1idXR0b246OmFmdGVyIHsKICBjb250ZW50OiAiXDI3MTUiOwogIGRpc3BsYXk6IGJsb2NrOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gaW5wdXRbdHlwZT0ic3VibWl0Il0gewogIGJvcmRlci1yYWRpdXM6IDAuMTg3NWVtOwogIGJvcmRlcjogMXB4IHNvbGlkIHRyYW5zcGFyZW50OwogIGJveC1zaGFkb3c6IG5vbmU7CiAgY29sb3I6ICNmZmY7CiAgY3Vyc29yOiBwb2ludGVyOwogIGZvbnQ6IGluaGVyaXQ7CiAgZm9udC13ZWlnaHQ6IGJvbGQ7CiAgLW1zLWZsZXg6IDAgMCBhdXRvOwogICAgICBmbGV4OiAwIDAgYXV0bzsKICBtYXJnaW4tbGVmdDogMWVtOwogIG1heC13aWR0aDogMTZlbTsKICBvdmVyZmxvdzogaGlkZGVuOwogIHBhZGRpbmc6IC42ZW0gMWVtOwogIGhlaWdodDogMi44ZW07CiAgbGluZS1oZWlnaHQ6IDE7CiAgcG9zaXRpb246IHJlbGF0aXZlOwogIHRleHQtb3ZlcmZsb3c6IGVsbGlwc2lzOwogIHdoaXRlLXNwYWNlOiBub3dyYXA7CiAgd2lkdGg6IGF1dG87Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBpbnB1dFt0eXBlPSJzdWJtaXQiXTpkaXNhYmxlZCB7CiAgb3BhY2l0eTogMC43OwogIGN1cnNvcjogbm90LWFsbG93ZWQ7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBpbnB1dFt0eXBlPSJlbWFpbCJdIHsKICAtd2Via2l0LWFwcGVhcmFuY2U6IG5vbmU7CiAgLW1vei1hcHBlYXJhbmNlOiBub25lOwogICAgICAgYXBwZWFyYW5jZTogbm9uZTsKICBmb250OiBpbmhlcml0OwogIHdpZHRoOiAxMDAlOwogIC13ZWJraXQtdGFwLWhpZ2hsaWdodC1jb2xvcjogdHJhbnNwYXJlbnQ7CiAgdGV4dC1yZW5kZXJpbmc6IG9wdGltaXplTGVnaWJpbGl0eTsKICBiYWNrZ3JvdW5kOiAjZmZmOwogIGNvbG9yOiBpbmhlcml0OwogIGJvcmRlcjogMXB4IHNvbGlkIHJnYmEoMCwgMCwgMCwgLjE4KTsKICBib3JkZXItdG9wLWNvbG9yOiByZ2JhKDAsIDAsIDAsIC4yNCk7CiAgcGFkZGluZzogLjZlbSAxZW07CiAgaGVpZ2h0OiAyLjhlbTsKICBsaW5lLWhlaWdodDogMTsKICBib3gtc2hhZG93OiBub25lOwogIGJvcmRlci1yYWRpdXM6IC4xODc1ZW07Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBpbnB1dFt0eXBlPSJlbWFpbCJdOm5vdCg6Zm9jdXMpIHsKICBiYWNrZ3JvdW5kOiByZ2JhKDAsIDAsIDAsIC4wMik7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBpbnB1dFt0eXBlPSJlbWFpbCJdOnBsYWNlaG9sZGVyIHsKICBjb2xvcjogcmdiYSgwLCAwLCAwLCAuNSk7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXS5jZi1pbnZhbGlkIGlucHV0W3R5cGU9J2VtYWlsJ10sCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXS5jZi1pbnZhbGlkIGlucHV0W3R5cGU9J2VtYWlsJ106aG92ZXIgewogIGNvbG9yOiAjZjE2OTc1OwogIGJhY2tncm91bmQ6ICNmZmY2Zjc7CiAgYm9yZGVyLWNvbG9yOiBjdXJyZW50Q29sb3I7CiAgdGV4dC1hbGlnbjogY2VudGVyOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0uY2YtaW52YWxpZCBpbnB1dFt0eXBlPSdlbWFpbCddOmRpc2FibGVkOjotd2Via2l0LWlucHV0LXBsYWNlaG9sZGVyIHsKICBjb2xvcjogI2I3MTkyNzsKICB0ZXh0LWFsaWduOiBjZW50ZXI7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXS5jZi1pbnZhbGlkIGlucHV0W3R5cGU9J2VtYWlsJ106ZGlzYWJsZWQ6LW1zLWlucHV0LXBsYWNlaG9sZGVyIHsKICBjb2xvcjogI2I3MTkyNzsKICB0ZXh0LWFsaWduOiBjZW50ZXI7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXS5jZi1pbnZhbGlkIGlucHV0W3R5cGU9J2VtYWlsJ106ZGlzYWJsZWQ6OnBsYWNlaG9sZGVyIHsKICBjb2xvcjogI2I3MTkyNzsKICB0ZXh0LWFsaWduOiBjZW50ZXI7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBpbnB1dFt0eXBlPSJlbWFpbCJdOmZvY3VzIHsKICBvdXRsaW5lOiBub25lOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gZm9ybSB7CiAgd2lkdGg6IDEwMCU7CiAgbWFyZ2luOiAuNWVtIDA7CiAgLW1zLWZsZXgtYWxpZ246IGNlbnRlcjsKICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICBkaXNwbGF5OiAtbXMtZmxleGJveDsKICBkaXNwbGF5OiBmbGV4OwogIC1tcy1mbGV4LXBhY2s6IGp1c3RpZnk7CiAgICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsKfQovKgogIFNwZWNpZmljaXR5IHRvIGNvbWJhdCB0aGluZ3MgbGlrZSB0aGlzIChmcm9tIENOTi5jb20gYXMgb2YgNi82LzE2KToKCiAgYm9keSA+IDpub3QoLm5hdikgewogICAgLXdlYmtpdC10cmFuc2Zvcm06IG5vbmUgIWltcG9ydGFudDsKICAgIHRyYW5zZm9ybTogbm9uZSAhaW1wb3J0YW50OwogIH0KKi8KaHRtbCA+IGJvZHkgPiBjbG91ZGZsYXJlLWFwcFthcHA9IndlbGNvbWUtYmFyIl0gewogIGRpc3BsYXk6IGJsb2NrOwogIGRpc3BsYXk6IC13ZWJraXQtYm94OwogIGRpc3BsYXk6IC1tcy1mbGV4Ym94OwogIGRpc3BsYXk6IGZsZXg7CiAgLXdlYmtpdC1ib3gtYWxpZ246IGNlbnRlcjsKICAgICAgLW1zLWZsZXgtYWxpZ246IGNlbnRlcjsKICAgICAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7CiAgLXdlYmtpdC1ib3gtcGFjazoganVzdGlmeTsKICAgICAgLW1zLWZsZXgtcGFjazoganVzdGlmeTsKICAgICAgICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsKICBmb250LXNpemU6IDE2cHg7CiAgbWluLWhlaWdodDogMi41ZW07CiAgbGluZS1oZWlnaHQ6IDE7CiAgb3ZlcmZsb3c6IGhpZGRlbjsKICBwb3NpdGlvbjogZml4ZWQ7CiAgdG9wOiAwOwogIGxlZnQ6IDA7CiAgcmlnaHQ6IDA7CiAgLXdlYmtpdC1mb250LXNtb290aGluZzogYW50aWFsaWFzZWQ7CiAgLW1vei1vc3gtZm9udC1zbW9vdGhpbmc6IGdyYXlzY2FsZTsKICAtd2Via2l0LXVzZXItc2VsZWN0OiBub25lOwogIC13ZWJraXQtdHJhbnNmb3JtOiB0cmFuc2xhdGUzZCgwLCAtMzAwJSwgMCk7CiAgICAgICAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZTNkKDAsIC0zMDAlLCAwKTsKfQoKaHRtbCA+IGJvZHkgPiBjbG91ZGZsYXJlLWFwcFthcHA9IndlbGNvbWUtYmFyIl06OmJlZm9yZSB7CiAgY29udGVudDogIiI7CiAgcG9zaXRpb246IGFic29sdXRlOwogIHRvcDogMDsKICBsZWZ0OiAwOwogIHJpZ2h0OiAwOwogIGJvdHRvbTogMDsKICBiYWNrZ3JvdW5kOiByZ2JhKDAsIDAsIDAsIC4wNSk7CiAgLXdlYmtpdC10cmFuc2Zvcm06IHRyYW5zbGF0ZTNkKC0xMDAlLCAwLCAwKTsKICAgICAgICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlM2QoLTEwMCUsIDAsIDApOwp9CgpodG1sID4gYm9keSA+IGNsb3VkZmxhcmUtYXBwW2FwcD0id2VsY29tZS1iYXIiXVtkYXRhLXNsaWRlLWFuaW1hdGlvbl06OmJlZm9yZSB7CiAgdHJhbnNpdGlvbjogLXdlYmtpdC10cmFuc2Zvcm0gZWFzZS1vdXQgOHM7CiAgdHJhbnNpdGlvbjogdHJhbnNmb3JtIGVhc2Utb3V0IDhzOwogIHRyYW5zaXRpb246IHRyYW5zZm9ybSBlYXNlLW91dCA4cywgLXdlYmtpdC10cmFuc2Zvcm0gZWFzZS1vdXQgOHM7Cn0KCmh0bWwgPiBib2R5ID4gY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdW2RhdGEtc2xpZGUtYW5pbWF0aW9uPSJjb21wbGV0ZSJdOjpiZWZvcmUgewogIC13ZWJraXQtdHJhbnNmb3JtOiB0cmFuc2xhdGUzZCgwLCAwLCAwKTsKICAgICAgICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlM2QoMCwgMCwgMCk7Cn0KCmh0bWxbZGF0YS1jZi13ZWxjb21lLWJhci12aXNpYmlsaXR5PSJ2aXNpYmxlIl0gPiBib2R5ID4gY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIHsKICAtd2Via2l0LXRyYW5zZm9ybTogdHJhbnNsYXRlM2QoMCwgMCwgMCkgIWltcG9ydGFudDsKICAgICAgICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlM2QoMCwgMCwgMCkgIWltcG9ydGFudDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIGFsZXJ0LW1lc3NhZ2UgewogIGRpc3BsYXk6IC13ZWJraXQtYm94OwogIGRpc3BsYXk6IC1tcy1mbGV4Ym94OwogIGRpc3BsYXk6IGZsZXg7CiAgLXdlYmtpdC1ib3gtZmxleDogMTsKICAgICAgLW1zLWZsZXg6IDEgMSBhdXRvOwogICAgICAgICAgZmxleDogMSAxIGF1dG87CiAgLXdlYmtpdC1ib3gtcGFjazogY2VudGVyOwogICAgICAtbXMtZmxleC1wYWNrOiBjZW50ZXI7CiAgICAgICAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIGFsZXJ0LW1lc3NhZ2UtY29udGVudCB7CiAgZGlzcGxheTogLXdlYmtpdC1ib3g7CiAgZGlzcGxheTogLW1zLWZsZXhib3g7CiAgZGlzcGxheTogZmxleDsKICAtd2Via2l0LWJveC1hbGlnbjogY2VudGVyOwogICAgICAtbXMtZmxleC1hbGlnbjogY2VudGVyOwogICAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICBmb250LXNpemU6IDEuMWVtOwogIGxpbmUtaGVpZ2h0OiAxLjI7CiAgZm9udC13ZWlnaHQ6IDUwMDsKICBtYXgtd2lkdGg6IDcwMHB4Owp9CgpAZm9udC1mYWNlIHsKICBmb250LWZhbWlseTogImNmYXBwcy13ZWxjb21lLWJhci1pY29ucyI7CiAgZm9udC1zdHlsZTogbm9ybWFsOwogIGZvbnQtd2VpZ2h0OiBub3JtYWw7CiAgc3JjOiB1cmwoZGF0YTphcHBsaWNhdGlvbi94LWZvbnQtd29mZjtjaGFyc2V0PXV0Zi04O2Jhc2U2NCxkMDlHUms5VVZFOEFBQU9nQUFvQUFBQUFCWHdBQVFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQkRSa1lnQUFBQTlBQUFBTUFBQUFEUktqY3BUMFpHVkUwQUFBRzBBQUFBR2dBQUFCeHpDYzJlVDFNdk1nQUFBZEFBQUFCSUFBQUFZSURLQlNsamJXRndBQUFDR0FBQUFEY0FBQUZDQUEwaTRXaGxZV1FBQUFKUUFBQUFMd0FBQURZRHR0WVdhR2hsWVFBQUFvQUFBQUFnQUFBQUpBYXRBZWhvYlhSNEFBQUNvQUFBQUFnQUFBQUlBL29BQUcxaGVIQUFBQUtvQUFBQUJnQUFBQVlBQWxBQWJtRnRaUUFBQXJBQUFBRFlBQUFCc0VuQkIxcHdiM04wQUFBRGlBQUFBQllBQUFBZy81MEFaM2ljWTJSZ1lXRmdaR1RrU1UxTVR5M1N6VXpPenl0bVlHUmlZR1J3L0NIRDlFT1crWWNFU3c4UFl3UVA4MGNlRmprdUJwWU9EZm51YmppRGg3Mjc1TWVrWHgyc01neGQvRElNREFJeURMMkNNZ3djTWd3bmhSaVlRY2J3TWtnd0tCZGxwbWVVSkdla2xoWGw1eUZaaEd3bkF3TmpPd01USTZPQ2VmZkhYendmR1Q5Ky9QQ1IrYVBZOTZPL2J2dyt5dmJ4WDVIb0w1NFAvM2pZK1g1TSt0RWkraWY4eDR5QWlCOWFmMUwvQVBHeFVGYStIeE5GdWtXN2ViZ0FPa1pHbzNpY1kyQmdZR1FBZ2dzRkRva2crcUxQc1hrd0dnQkVZZ2JsQUFCNG5HTmdadnpMT0lHQmxZR0QxWmgxSmdNRG94eUVacjdPa01Za3hBQUVyQXdRME1DQUNnTFNYRk1ZSEJTc0ZLelkwdjZsTWV4Zy9zSWdEaFJtaEN0UUFFSkdBRVE5QzI5NG5HTmdZR0JtZ0dBWkJrWUdFTEFCOGhqQmZCWUdCU0ROQW9SQXZvTFYvLzhROHY1eHFFb0dSallHR0hONEFpSThCd0NZNGdjTkFIaWNZMkJrWUdBQTRpM1A3MnJIODl0OFplRG1ZQUNCaXo3SDVpSG8veThaL3pGL0FYSTVHSmhBb2dCcWR3MUNBSGljWTJCa1lHRCs4djhsd3c3R3Z3d00vLzh6L21NQWlxQUFKZ0RBaHdlWEFmMEFBQUg5QUFBQUFGQUFBQUlBQUhpY2pZKzlEY0l3RUlWZklFSGlSNVNJMGdVU2xTTTdBZ29Hb0tTa1I4aUswc1NTd3d5TXdCaU13UUNNd1FEVVBKc3JLQ2l3ZFBaM2QrOStER0NDS3pMRWsyR011WEFQQll4d0gwdGNoSE5xN3NJRitTazh3RGliVXBubFEwWm1xU3B5RHlNc2hQdllZeU9jVTNNVExzZ1A0UUg1QlljamF0NEJHZzFPOEdqUkFlNVl1NkNiazIvcGZNVWxza3YrT2IwaDFTdFVLUGtQaFMzdGQ5ZFB6bEtsc2FKVkpJczEyL24ydlBPaGRxb3FqZHFxcituMHJORXJYUmxMNFQvYkhsSytZejVtNDd5NEZ3NHVkSTF2bFMzTlgzM2VFaEJETW5pY1kyQm1BSVAvc3hqU2dCUWpBeG9BQUM2cUFnUUFBQT09KSBmb3JtYXQoIndvZmYiKTsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIC5hbGVydC1jdGEtYnV0dG9uIHsKICBkaXNwbGF5OiAtd2Via2l0LWJveCAhaW1wb3J0YW50OwogIGRpc3BsYXk6IC1tcy1mbGV4Ym94ICFpbXBvcnRhbnQ7CiAgZGlzcGxheTogZmxleCAhaW1wb3J0YW50OwogIC13ZWJraXQtYm94LWFsaWduOiBjZW50ZXIgIWltcG9ydGFudDsKICAgICAgLW1zLWZsZXgtYWxpZ246IGNlbnRlciAhaW1wb3J0YW50OwogICAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlciAhaW1wb3J0YW50OwogIGJvcmRlcjogMCAhaW1wb3J0YW50OwogIGJveC1zaGFkb3c6IG5vbmUgIWltcG9ydGFudDsKICBjdXJzb3I6IHBvaW50ZXIgIWltcG9ydGFudDsKICBkaXNwbGF5OiBpbmxpbmUtYmxvY2sgIWltcG9ydGFudDsKICAtd2Via2l0LWJveC1mbGV4OiAwICFpbXBvcnRhbnQ7CiAgICAgIC1tcy1mbGV4OiAwIDAgYXV0byAhaW1wb3J0YW50OwogICAgICAgICAgZmxleDogMCAwIGF1dG8gIWltcG9ydGFudDsKICBmb250LXNpemU6IC44NWVtICFpbXBvcnRhbnQ7CiAgZm9udC13ZWlnaHQ6IGJvbGQgIWltcG9ydGFudDsKICBoZWlnaHQ6IGF1dG8gIWltcG9ydGFudDsKICBsZXR0ZXItc3BhY2luZzogLjA4ZW07CiAgbGluZS1oZWlnaHQ6IC45NSAhaW1wb3J0YW50OwogIG1heC13aWR0aDogMTZlbSAhaW1wb3J0YW50OwogIG9wYWNpdHk6IC44NTsKICBvdmVyZmxvdzogdmlzaWJsZSAhaW1wb3J0YW50OwogIHBvc2l0aW9uOiByZWxhdGl2ZSAhaW1wb3J0YW50OwogIHRleHQtZGVjb3JhdGlvbjogbm9uZSAhaW1wb3J0YW50OwogIHRleHQtaW5kZW50OiAuMDhlbTsKICB0ZXh0LW92ZXJmbG93OiBlbGxpcHNpcyAhaW1wb3J0YW50OwogIHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2UgIWltcG9ydGFudDsKICB3aGl0ZS1zcGFjZTogbm93cmFwICFpbXBvcnRhbnQ7CiAgd2lkdGg6IGF1dG8gIWltcG9ydGFudDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIC5hbGVydC1jdGEtYnV0dG9uOjphZnRlciB7CiAgY29sb3I6IGluaGVyaXQgIWltcG9ydGFudDsKICBjb250ZW50OiAiXDIwM0EiOwogIGRpc3BsYXk6IGlubGluZS1ibG9jayAhaW1wb3J0YW50OwogIGZvbnQtZmFtaWx5OiAiY2ZhcHBzLXdlbGNvbWUtYmFyLWljb25zIjsKICBmb250LXNpemU6IDEuM2VtICFpbXBvcnRhbnQ7CiAgZm9udC1zdHlsZTogbm9ybWFsOwogIGZvbnQtd2VpZ2h0OiBpbmhlcml0OwogIGxpbmUtaGVpZ2h0OiAuOCAhaW1wb3J0YW50OwogIG1hcmdpbi10b3A6IC0xcHggIWltcG9ydGFudDsKICBtYXJnaW4tdG9wOiBhdXRvICFpbXBvcnRhbnQ7CiAgcGFkZGluZy1sZWZ0OiAuM2VtICFpbXBvcnRhbnQ7CiAgcG9zaXRpb246IGFic29sdXRlOwogIGxlZnQ6IDEwMCU7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0id2VsY29tZS1iYXIiXSBhbGVydC1kaXNtaXNzIHsKICBjdXJzb3I6IHBvaW50ZXI7CiAgY29sb3I6IHJnYmEoMTAsIDEwLCAxMCwgLjI1KTsKICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7CiAgLXdlYmtpdC1ib3gtZmxleDogMDsKICAgICAgLW1zLWZsZXg6IDAgMCBhdXRvOwogICAgICAgICAgZmxleDogMCAwIGF1dG87CiAgZm9udC1mYW1pbHk6ICJIZWx2ZXRpY2EgTmV1ZSIsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWY7CiAgZm9udC1zaXplOiAyZW07CiAgZm9udC13ZWlnaHQ6IDMwMDsKICBoZWlnaHQ6IDFlbTsKICBsaW5lLWhlaWdodDogLjc1ZW07CiAgbWFyZ2luOiAwIC4yZW07CiAgLXdlYmtpdC11c2VyLXNlbGVjdDogbm9uZTsKICAgICAtbW96LXVzZXItc2VsZWN0OiBub25lOwogICAgICAtbXMtdXNlci1zZWxlY3Q6IG5vbmU7CiAgICAgICAgICB1c2VyLXNlbGVjdDogbm9uZTsKICB3aWR0aDogLjllbTsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIGFsZXJ0LWRpc21pc3M6aG92ZXIgewogIGNvbG9yOiByZ2JhKDEwLCAxMCwgMTAsIC41KTsKfQoKaHRtbCA+IGJvZHkgPiBjbG91ZGZsYXJlLWFwcFthcHA9IndlbGNvbWUtYmFyIl1bZGF0YS1zdHlsZT0ic2xpbSJdIHsKICBmb250LXNpemU6IC45MmVtOwogIG1pbi1oZWlnaHQ6IDIuMmVtOwp9CgpodG1sID4gYm9keSA+IGNsb3VkZmxhcmUtYXBwW2FwcD0id2VsY29tZS1iYXIiXVtkYXRhLXN0eWxlPSJwcm9taW5lbnQiXSAuYWxlcnQtY3RhLWJ1dHRvbiB7CiAgYm9yZGVyLXJhZGl1czogLjE1ZW07Cn0KCkBtZWRpYSAobWluLXdpZHRoOiA3NjhweCkgewogIGNsb3VkZmxhcmUtYXBwW2FwcD0id2VsY29tZS1iYXIiXSB7CiAgICBwYWRkaW5nOiAuNWVtIDA7CiAgfQoKICBjbG91ZGZsYXJlLWFwcFthcHA9IndlbGNvbWUtYmFyIl1bZGF0YS1zdHlsZT0icHJvbWluZW50Il0gLmFsZXJ0LWN0YS1idXR0b24gewogICAgcGFkZGluZzogLjY1ZW0gMS43NWVtIC42ZW0gLjllbSAhaW1wb3J0YW50OwogIH0KCiAgY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdW2RhdGEtc3R5bGU9InByb21pbmVudCJdIC5hbGVydC1jdGEtYnV0dG9uOjphZnRlciB7CiAgICBsZWZ0OiBhdXRvOwogIH0KCiAgY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIC5hbGVydC1jdGEtYnV0dG9uIHsKICAgIG1hcmdpbi1sZWZ0OiAxZW07CiAgfQp9CgpAbWVkaWEgKG1heC13aWR0aDogNzY4cHgpIHsKICBodG1sID4gYm9keSA+IGNsb3VkZmxhcmUtYXBwW2FwcD0id2VsY29tZS1iYXIiXSB7CiAgICAtd2Via2l0LWJveC1hbGlnbjogY2VudGVyOwogICAgICAgIC1tcy1mbGV4LWFsaWduOiBjZW50ZXI7CiAgICAgICAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7CiAgICBmb250LXNpemU6IC45MmVtOwogICAgbWluLWhlaWdodDogMi4yZW07CiAgICBwYWRkaW5nOiAuNWVtIDAgLjVlbSAuNWVtOwogIH0KCiAgY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIC5hbGVydC1jdGEtYnV0dG9uIHsKICAgIG1hcmdpbi10b3A6IC41ZW07CiAgICBkaXNwbGF5OiBibG9jayAhaW1wb3J0YW50OwogICAgLXdlYmtpdC1ib3gtZmxleDogMDsKICAgICAgICAtbXMtZmxleDogMCAwIGF1dG87CiAgICAgICAgICAgIGZsZXg6IDAgMCBhdXRvOwogIH0KCiAgY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIGFsZXJ0LW1lc3NhZ2UtY29udGVudCB7CiAgICAtd2Via2l0LWJveC1vcmllbnQ6IHZlcnRpY2FsICFpbXBvcnRhbnQ7CiAgICAtd2Via2l0LWJveC1kaXJlY3Rpb246IG5vcm1hbCAhaW1wb3J0YW50OwogICAgICAgIC1tcy1mbGV4LWZsb3c6IGNvbHVtbiBub3dyYXAgIWltcG9ydGFudDsKICAgICAgICAgICAgZmxleC1mbG93OiBjb2x1bW4gbm93cmFwICFpbXBvcnRhbnQ7CiAgICAtd2Via2l0LWJveC1hbGlnbjogc3RhcnQgIWltcG9ydGFudDsKICAgICAgICAtbXMtZmxleC1hbGlnbjogc3RhcnQgIWltcG9ydGFudDsKICAgICAgICAgICAgYWxpZ24taXRlbXM6IGZsZXgtc3RhcnQgIWltcG9ydGFudDsKICB9Cn0KCg=="><script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/wrapperMessagingWithoutDetection.js.descarga"></script><script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/ccpa.js.descarga"></script><script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/pubads_impl_2020102201.js.descarga" async=""></script><script type="text/javascript" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/jquery.ui.widget.js.descarga"></script><script type="text/javascript" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/jquery.iframe-transport.js.descarga"></script><script type="text/javascript" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/jquery.fileupload.js.descarga"></script><script type="text/javascript" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/set_common_min.js.descarga"></script><script type="text/javascript" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/set_shared_c0_min.js.descarga"></script><script type="text/javascript" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/set_sidebar_u_min.js.descarga"></script><meta name="viewport" content="width=device-width, initial-scale=1"><style type="text/css" data-fbcssmodules="css:fb.css.basecss:fb.css.dialog css:fb.css.iframewidget">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_dialog_advanced{border-radius:8px;padding:10px}.fb_dialog_content{background:#fff;color:#373737}.fb_dialog_close_icon{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{left:5px;right:auto;top:5px}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent}.fb_dialog_close_icon:active{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{height:100%;left:0;margin:0;overflow:visible;position:absolute;top:-10000px;transform:none;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{background:none;height:auto;min-height:initial;min-width:initial;width:auto}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{clear:both;color:#fff;display:block;font-size:18px;padding-top:20px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .4);bottom:0;left:0;min-height:100%;position:absolute;right:0;top:0;width:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_mobile .fb_dialog_iframe{position:sticky;top:0}.fb_dialog_content .dialog_header{background:linear-gradient(from(#738aba), to(#2c4987));border-bottom:1px solid;border-color:#043b87;box-shadow:white 0 1px 1px -1px inset;color:#fff;font:bold 14px Helvetica, sans-serif;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:linear-gradient(from(#4267B2), to(#2a4887));background-clip:padding-box;border:1px solid #29487d;border-radius:3px;display:inline-block;line-height:18px;margin-top:3px;max-width:85px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{background:none;border:none;color:#fff;font:bold 12px Helvetica, sans-serif;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #4a4a4a;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f5f6f7;border:1px solid #4a4a4a;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);background-position:50% 50%;background-repeat:no-repeat;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}</style><script charset="utf-8" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/button.63c51c903061d0dbd843c41e8a00aa5a.js.descarga"></script><style type="text/css">.mceToolbar {display: none}</style><link rel="preload" href="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/f.txt" as="script"><script type="text/javascript" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/f.txt"></script><link rel="preload" href="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/f(1).txt" as="script"><script type="text/javascript" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/f(1).txt"></script><link rel="prefetch" href="https://b193093ecfca7895bb9622358c9ad727.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html"></head>
+<body><noscript><!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KDDZT6Q"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) --></noscript>
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T5W4WQ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<div class="xj_before_content"><div id="fb-root" class=" fb_reset"><script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/sdk.js(1).descarga" async=""></script><div style="position: absolute; top: -10000px; width: 0px; height: 0px;"><div></div></div></div>
+<script>
+  window.fbAsyncInit = function () {
+    FB.init({
+      appId      : '259683271111061', 
+      status     : true,   
+      cookie     : true,   
+      xfbml      : true, 
+      version    : 'v2.3'  
+    });
+    var n = xg.addOnFacebookLoad.functions.length;
+    for (var i = 0; i < n; i++) {
+      xg.addOnFacebookLoad.functions[i]();
+    }
+    xg.addOnFacebookLoad = function (f) { f(); };
+    xg.addOnFacebookLoad.functions = [];
+  };
+  (function() {
+    var e = document.createElement('script');
+    e.src = document.location.protocol + '//connect.facebook.net/en_US/sdk.js';
+    e.async = true;
+    document.getElementById('fb-root').appendChild(e);
+  })();
+</script> <div id="xn_bar">
+<div id="xn_bar_menu">
+<div id="xn_bar_menu_branding">
+</div>
+<div id="xn_bar_menu_more">
+<form id="xn_bar_menu_search" method="GET" action="https://www.datasciencecentral.com/page/search">
+<fieldset>
+<input type="text" name="q" id="xn_bar_menu_search_query" value="Search Data Science Central" _hint="Search Data Science Central" accesskey="4" class="text xj_search_hint">
+<a id="xn_bar_menu_search_submit" href="https://www.datasciencecentral.com/profiles/blogs/predicting-car-prices-part-1-linear-regression#" onclick="document.getElementById(&#39;xn_bar_menu_search&#39;).submit();return false">Search</a>
+</fieldset>
+</form>
+</div>
+<ul id="xn_bar_menu_tabs">
+<li><a href="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fpredicting-car-prices-part-1-linear-regression">Sign Up</a></li>
+<li><a href="https://www.datasciencecentral.com/main/authorization/signIn?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fpredicting-car-prices-part-1-linear-regression">Sign In</a></li>
+</ul>
+</div>
+</div>
+</div>
+<script type="text/javascript" id="">!function(b,e,f,g,a,c,d){b.fbq||(a=b.fbq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._fbq||(b._fbq=a),a.push=a,a.loaded=!0,a.version="2.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","720347215081901");fbq("set","agent","tmgoogletagmanager","720347215081901");fbq("track","PageView");</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=720347215081901&amp;ev=PageView&amp;noscript=1"></noscript>
+
+<div class="xg_theme" data-layout-pack="brutus">
+<div id="xg_themebody">
+<div id="xg_ad_above_header" class="xg_ad xj_ad_above_header dy-displaynone">
+</div>
+<div id="xg_head">
+<div id="xg_masthead">
+<h1 id="xg_sitename" class="xj_site_name"><a id="application_name_header_link" href="https://www.datasciencecentral.com/"><img src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/TT Data Science Center logo 2.png" alt="Data Science Central"></a></h1>
+<p id="xg_sitedesc" class="xj_site_desc"></p>
+</div>
+<div id="xg_navigation" class="xj_navigation"><ul>
+<li dojotype="SubTabHover" id="xg_tab_xn54" class="xg_subtab"><a href="https://www.datasciencecentral.com/"><span>Home</span></a><div class="xg_subtab" style="display:none;position:absolute;"><ul class="xg_subtab" style="display:block;"><li style="list-style:none !important;display:block;text-align:left;"><a href="https://www.datasciencecentral.com/page/most-popular-content-on-dsc" style="float:none;"><span>Top Content</span></a></li><li style="list-style:none !important;display:block;text-align:left;"><a href="https://www.datasciencecentral.com/page/editorial-guidelines" style="float:none;"><span>Editorial Guidelines</span></a></li></ul></div></li><li id="xg_tab_xn22" class="xg_subtab"><a href="https://www.datasciencecentral.com/page/search?q=AI"><span>AI</span></a></li><li id="xg_tab_xn52" class="xg_subtab"><a href="https://www.datasciencecentral.com/page/search?q=Machine+Learning"><span>ML</span></a></li><li id="xg_tab_xn31" class="xg_subtab"><a href="https://www.datasciencecentral.com/page/search?q=Deep+Learning"><span>DL</span></a></li><li id="xg_tab_profile" class="xg_subtab"><a href="https://www.analyticbridge.datasciencecentral.com/" target="_blank"><span>Analytics</span></a></li><li id="xg_tab_xn40" class="xg_subtab"><a href="https://www.bigdatanews.datasciencecentral.com/" target="_blank"><span>Big Data</span></a></li><li id="xg_tab_xn32" class="xg_subtab"><a href="https://www.datavizualization.datasciencecentral.com/" target="_blank"><span>DataViz</span></a></li><li id="xg_tab_xn26" class="xg_subtab"><a href="https://www.hadoop360.datasciencecentral.com/" target="_blank"><span>Hadoop</span></a></li><li id="xg_tab_xn53" class="xg_subtab"><a href="https://www.datasciencecentral.com/video/video/listTagged?tag=DSC+Podcast+Series"><span>Podcasts</span></a></li><li id="xg_tab_xn28" class="xg_subtab"><a href="https://www.datasciencecentral.com/video/video/listFeatured"><span>Webinars</span></a></li><li id="xg_tab_xn49" class="xg_subtab"><a href="https://www.datasciencecentral.com/forum"><span>Forums</span></a></li><li id="xg_tab_xn57" class="xg_subtab"><a href="https://www.education.datasciencecentral.com/?utm_source=DSC&amp;utm_medium=tab"><span>Education</span></a></li><li dojotype="SubTabHover" id="xg_tab_xn25" class="xg_subtab"><a href="https://www.datasciencecentral.com/profiles/blogs/check-out-our-dsc-newsletter"><span>Membership</span></a><div class="xg_subtab" style="display:none;position:absolute;"><ul class="xg_subtab" style="display:block;"><li style="list-style:none !important;display:block;text-align:left;"><a href="https://www.datasciencecentral.com/page/most-popular-content-on-dsc" style="float:none;"><span>Top Content</span></a></li><li style="list-style:none !important;display:block;text-align:left;"><a href="https://www.datasciencecentral.com/group/resources/forum/topics/selection-of-best-articles-from-our-past-weekly-digests" style="float:none;"><span>Archives</span></a></li></ul></div></li><li id="xg_tab_xn51" class="xg_subtab"><a href="https://www.datasciencecentral.com/groups/group/list"><span>Groups</span></a></li><li id="xg_tab_xn35" class="xg_subtab"><a href="https://www.datasciencecentral.com/page/search"><span>Search</span></a></li><li id="xg_tab_xn18" class="xg_subtab"><a href="https://www.datasciencecentral.com/page/contact-us"><span>Contact</span></a></li></ul>
+</div>
+</div>
+<div id="xg_ad_below_header" class="xg_ad xj_ad_below_header">
+<div class="xg_module module-plain  html_module module_text xg_reset" data-module_name="text">
+<div class="xg_module_body xg_user_generated">
+
+<script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/gdprTCFv2-config.min.js.descarga" type="text/javascript">
+</script>
+<script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/ttCmpApi.min.js.descarga" type="text/javascript">
+</script>
+<script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/ccpa-config.min.js.descarga" type="text/javascript">
+</script>
+<script type="text/javascript">
+var cmpApi;
+cmpApi = new ttCmpApi();
+</script>
+<div id="cmp-banner"></div>
+
+<center><script async="" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/gpt.js.descarga" type="text/javascript">
+</script> <script type="text/javascript">
+  window.googletag = window.googletag || {cmd: []};
+  googletag.cmd.push(function() {   
+googletag.defineSlot('/2672641/Bottom_Leaderboard', [728, 90], 'div-gpt-ad-1512428902846-0').addService(googletag.pubads());
+    googletag.defineSlot('/2672641/Box_Ad_Blog', [300, 250], 'div-gpt-ad-1512428902846-2').addService(googletag.pubads());
+    googletag.defineSlot('/2672641/Box_Ad_Forum', [300, 250], 'div-gpt-ad-1512428902846-3').addService(googletag.pubads());
+    googletag.defineSlot('/2672641/Skyscraper', [160, 600], 'div-gpt-ad-1512428902846-6').addService(googletag.pubads());
+    googletag.defineSlot('/2672641/Square_Box', [220, 220], 'div-gpt-ad-1512428902846-7').addService(googletag.pubads());
+    googletag.defineSlot('/2672641/Top_Leaderboard', [728, 90], 'div-gpt-ad-1512428902846-8').addService(googletag.pubads());
+    googletag.enableServices();
+  });
+</script>
+<div id="div-gpt-ad-1512428902846-8" style="height:90px; width:728px;" data-google-query-id="CL3MgZaB2ewCFYH4hwodK4MKeA"><div id="google_ads_iframe_/2672641/Top_Leaderboard_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/2672641/Top_Leaderboard_0" title="3rd party ad content" name="google_ads_iframe_/2672641/Top_Leaderboard_0" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/saved_resource.html"></iframe></div></div>
+<br></center>
+<center><a href="https://www.datasciencecentral.com/profiles/blogs/check-out-our-dsc-newsletter">Subscribe to DSC Newsletter</a></center>
+
+<script type="text/javascript">
+var googleAnalyticsPurposes = [1];
+var isGaEnabled = true;
+//set this window property for TCFv2 support
+window['gtag_enable_tcf_support'] = true
+window.dataLayer = window.dataLayer || [];
+dataLayer = window.dataLayer;
+
+window.__tcfapi('addEventListener', 2, function (tcData, listenerSuccess) {
+    if ((typeof(tcData) !== 'undefined') && (tcData !== null)) {
+        if (listenerSuccess && (tcData.eventStatus === 'tcloaded' || tcData.eventStatus === 'cmpuishown')) {
+            var gdprApplies = tcData.gdprApplies;
+            if (gdprApplies && !(cmpApi.getConsentforVendorV2(googleAnalyticsPurposes))) {
+                //remove the listener ourself to not get called more than once
+                window.__tcfapi('removeEventListener', 2, function (success) {
+                    if (success) {
+                        window.__tcfapi('addEventListener', 2, function (tcData, listenerSuccess) {
+                            if (listenerSuccess && tcData.eventStatus === 'useractioncomplete') {
+                                window.__tcfapi('getTCData', 2, function (tcData, success) {
+                                    if (success) {
+                                        if (Object.keys(tcData.purpose.consents).length === 0 && tcData.purpose.consents.constructor === Object) {
+                                            isGaEnabled = false;
+                                        } else {
+                                            for (var purposeid in googleAnalyticsPurposes) {
+                                                if (tcData.purpose.consents[googleAnalyticsPurposes[purposeid]] === null || tcData.purpose.consents[googleAnalyticsPurposes[purposeid]] === undefined || tcData.purpose.consents[googleAnalyticsPurposes[purposeid]] === false){
+                                                    isGaEnabled = false;
+                                                }
+                                            }
+                                        }
+
+                                        console.log("isGAEnabled = " + isGaEnabled);
+                                        if (isGaEnabled){
+                                            var eventAction = 'GaEnabled';
+                                            var eventCategory = 'GA';
+                                            var eventLabel = 'GaEnabled';
+                                            if (typeof window.dataLayer !== 'undefined') {
+                                                args=[eventCategory,eventAction,eventLabel];
+                                                dataLayer.push({eventCategory:args[0],eventAction:args[1], eventLabel:args[2]});
+                                                dataLayer.push({'event': 'GaEnabled'});
+                                            }
+                                        }
+
+                                    }
+                                });
+
+                                window.__tcfapi('removeEventListener', 2, function (success) {
+                                    if (success) {
+                                        //listener Removed
+                                        logger.log('removed: ' + tcData.listenerId);
+                                    }
+                                }, tcData.listenerId);
+
+                            }
+                        });
+                    }
+                }, tcData.listenerId);
+            } else {
+                window.__tcfapi('removeEventListener', 2, function (success) {
+                    console.log("CONTEXT HAS CONSENT OR GDPR IS NOT APPLICABLE");
+                    if (success) {
+                        var eventAction = 'GaEnabled';
+                        var eventCategory = 'GA';
+                        var eventLabel = 'GaEnabled';
+                        if (typeof window.dataLayer !== 'undefined') {
+                            args=[eventCategory,eventAction,eventLabel];
+                            dataLayer.push({eventCategory:args[0],eventAction:args[1], eventLabel:args[2]});
+                            dataLayer.push({'event': 'GaEnabled'});
+                        }
+                    }
+                }, tcData.listenerId);
+            }
+
+        }
+    }
+});
+</script>
+</div>
+</div>
+</div>
+<div id="xg" class="xg_widget_profiles xg_widget_profiles_blog xg_widget_profiles_blog_show">
+<div id="xg_body">
+<div class="xj_notifications"></div>
+<div class="xg_column xg_span-16" id="column1">
+<div id="xg_canvas" class="xj_canvas">
+<ul class="navigation easyclear"><li><a href="https://www.datasciencecentral.com/profiles/blog/list">All Blog Posts</a></li><li><a href="https://www.datasciencecentral.com/profiles/blog/list?my=1">My Blog</a></li><li class="right  xg_lightborder navbutton"><a href="https://www.datasciencecentral.com/profiles/blog/new" class="xg_sprite xg_sprite-add">Add</a></li></ul>
+<div class="xg_module xg_blog xg_blog_detail xg_blog_mypage xg_module_with_dialog">
+<div class="xg_headline xg_headline-img xg_headline-2l">
+<div class="ib"><span class="xg_avatar"><a class="fn url" href="https://www.datasciencecentral.com/profile/PeterChen811" title="Peter Chen"><span class="table_img dy-avatar dy-avatar-64 "><img class="photo photo" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/genericavatar.png" alt=""></span></a></span></div>
+<div class="tb"><h1>Predicting Car Prices Part 1: Linear Regression</h1>
+<ul class="navigation byline">
+<li><a class="nolink">Posted by </a><a href="https://www.datasciencecentral.com/profile/PeterChen811">Peter Chen</a><a class="nolink"> on March 22, 2015 at 11:00am</a></li>
+<li><a class="xg_sprite xg_sprite-view" href="https://www.datasciencecentral.com/profiles/blog/list?user=339jk12o9w5qx">View Blog</a></li>
+</ul>
+</div>
+</div>
+<div class="xg_module_body">
+<div class="postbody">
+<div class="xg_user_generated">
+<p><span class="header-section-number" style="font-size: 2em;">1.</span><span style="font-size: 2em;">&nbsp;</span><strong style="font-size: 2em;">Introduction:</strong></p>
+<div id="introductions" class="section level1"><p>Let’s walk through an example of predictive analytics using a data set that most people can relate to:prices of cars. In this case, we have a data set with historical Toyota Corolla prices along with related car attributes.</p>
+<p>Let’s load in the Toyota Corolla file and check out the first 5 lines to see what the data set looks like:</p>
+<span style="font-family: &#39;courier new&#39;, courier;"><code>## Price Age KM FuelType HP MetColor Automatic CC Doors Weight <br> ## 1 13500 23 46986 Diesel 90 1 0 2000 3 1165 <br> ## 2 13750 23 72937 Diesel 90 1 0 2000 3 1165 <br> ## 3 13950 24 41711 Diesel 90 1 0 2000 3 1165 <br> ## 4 14950 26 48000 Diesel 90 0 0 2000 3 1165 <br> ## 5 13750 30 38500 Diesel 90 0 0 2000 3 1170</code></span><br>
+<p></p>
+<p>Price, Age, KM(kilometers driven), Fuel Type, HP(horsepower), Automatic or Manual, Number of Doors, and Weight in pounds are the data collected in this file for Toyota Corollas.</p>
+<p>In predictive models, there is a response variable(also called dependent variable), which is the variable that we are interested in predicting.</p>
+<p>The independent variables(the predictors also called features in the machine learning community) are one or more numeric variables we are using to predict the response variable. Given we are using a linear regression model, we are assuming the relationship between the independent and dependent variables follow a straight line. In future posts, we will gradually increase the complexities of our models to see if it improves predictive powers.</p>
+<p>But before we start our modeling exercise, it’s good to take a visual look at what we are trying to predict to see what it looks like. Since we are trying to predict Toyota Corolla prices with historical data, let’s do a simple histogram plot to see the distribution of Corolla prices:</p>
+<span style="font-family: &#39;courier new&#39;, courier;"><code>## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.</code></span><a href="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/bor55.PNG" target="_self"><img src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/bor55.PNG" width="672" class="align-full"></a><br>
+<div id="introductions" class="section level1"><p>We see that most used Corollas are around $10K and there are some at the tail end that over $25K. These might be newer cars with a lot of options. And there are fewer of them anyhow.</p>
+</div>
+<a href="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/bor55.PNG" target="_self"></a><br>
+<div id="data-transformation" class="section level1"><h1><span class="header-section-number">2.</span>&nbsp;<strong>Data Transformation:</strong></h1>
+<p>One of the main steps in the predictive analytics is data transformation. Data is never in the way you want them. One might have to do some kinds of transformations to get it to the way we need them to be either because the data is dirty, not of the type we want, out of bounds, and a host of other reasons.</p>
+<p>In this case, we need to convert the categorical variables to numeric variables to feed into our linear regression model, because linear regression models only take numeric variables.</p>
+<p>The categorical variable we want to do the transformation on is Fuel Types. We that there are 3 Fuel Types: 1) CNG 2) Diesel 3) Petrol</p>
+<span style="font-family: &#39;courier new&#39;, courier;"><code>summary(corolla$FuelType)</code></span></div>
+<div class="section level1"><span style="font-family: &#39;courier new&#39;, courier;"><code>## CNG Diesel Petrol <br> ## 17 155 1264</code></span><br><p></p>
+<p>So, we can convert the categorical variable Fuel Type to two numeric variables: FuelType1 and FuelType2. We assign CNG to a new variable FuelType1 in which a 1 represents it’s a CNG vehicle and 0 it’s not. Likewise, we assign Diesel to a new variable FuelType2 in which a 1 represents it’s a Diesel vehicle and 0 it’s not.</p>
+<p><em>So, what do we do with PETROL vehicles? This is represented by the case when BOTH FuelType1 and FuelType2 are zero.</em></p>
+<span style="font-family: &#39;courier new&#39;, courier;"><code>## Price Age KM HP MetColor Automatic CC Doors Weight FuelType1 <br> ## 1 13500 23 46986 90 1 0 2000 3 1165 0 <br> ## 2 13750 23 72937 90 1 0 2000 3 1165 0 <br> ## 3 13950 24 41711 90 1 0 2000 3 1165 0 <br> ## FuelType2 <br> ## 1 1 <br> ## 2 1 <br> ## 3 1</code></span></div>
+<a href="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/bor55.PNG" target="_self"></a><br>
+<div id="exploratory-data-analysis-eda" class="section level1"><h1><span class="header-section-number">3.</span>&nbsp;<strong>Exploratory Data Analysis (EDA):</strong></h1>
+<p>The next step in predictive analytics is to explore our underlying. Let’s do a few plots of our explantory variables to see how they look against Price.</p>
+</div>
+<a href="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/bor56.PNG" target="_self"><img src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/bor56.PNG" width="672" class="align-full"></a>This plot is telling and fits out intuition. The newer the car the more expensive it is.<br> <a href="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/bor57.PNG" target="_self"><img src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/bor57.PNG" width="672" class="align-full"></a><span>The more miles a car has the cheaper it is.<br> <a href="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/bor58.PNG" target="_self"><img src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/bor58.PNG" width="672" class="align-full"></a></span><span>This one is not as direct as the other. Yes, the more horsepower the more expensive. But not always the case. Let’s see how this variable will behave in our model.</span><br> <a href="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/bor59.png" target="_self"><img src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/bor59.png" width="672" class="align-full"></a>More examples can be found <a rel="nofollow" href="https://dataillumination.blogspot.com/2015/03/predictive-analytics-predicting-toyota.html" target="_blank">here</a>.</div>
+<div class="section level1"><div id="model-building-linear-regression" class="section level1"><h1><span class="header-section-number">4.</span>&nbsp;<strong>Model Building: Linear Regression</strong></h1>
+<p>Now that we have explored our variables, let’s a simple linear regression of Price against all the data we’ve collected.</p>
+<span style="font-family: &#39;courier new&#39;, courier;"><code>## <br> ## Call: <br> ## lm(formula = Price ~ ., data = auto) <br> ##</code></span></div>
+<div class="section level1"><span style="font-family: &#39;courier new&#39;, courier;"><code>## Residuals: <br> ## Min 1Q Median 3Q Max <br> ## -10642.3 -737.7 3.1 731.3 6451.5 <br> ##</code></span></div>
+<div class="section level1"><span style="font-family: &#39;courier new&#39;, courier;"><code>## Coefficients: <br> ## Estimate Std. Error t value Pr(&gt;|t|) <br> ## (Intercept) -2.681e+03 1.219e+03 -2.199 0.028036 * <br> ## Age -1.220e+02 2.602e+00 -46.889 &lt; 2e-16 *** <br> ## KM -1.621e-02 1.313e-03 -12.347 &lt; 2e-16 *** <br> ## HP 6.081e+01 5.756e+00 10.565 &lt; 2e-16 *** <br> ## MetColor 5.716e+01 7.494e+01 0.763 0.445738 <br> ## Automatic 3.303e+02 1.571e+02 2.102 0.035708 * <br> ## CC -4.174e+00 5.453e-01 -7.656 3.53e-14 *** <br> ## Doors -7.776e+00 4.006e+01 -0.194 0.846129 <br> ## Weight 2.001e+01 1.203e+00 16.629 &lt; 2e-16 *** <br> ## FuelType1 -1.121e+03 3.324e+02 -3.372 0.000767 *** <br> ## FuelType2 2.269e+03 4.394e+02 5.164 2.75e-07 *** <br> ## --- <br> ## Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 <br> ## <br> ## Residual standard error: 1316 on 1425 degrees of freedom <br> ## Multiple R-squared: 0.8693, Adjusted R-squared: 0.8684 <br> ## F-statistic: 948 on 10 and 1425 DF, p-value: &lt; 2.2e-16</code></span></div>
+<div class="section level1"><br><p>We see from the output that our model prices 86.9%(see Multiple R square) of the variation in price using the explantory variables above. This is pretty decent.</p>
+<p>However, we notice is that some coefficents are more statistically significant that others. For example, we find that Age is the most significant witha t-value of -46.889, followed by Weight with a t-value of 16.629. The least significant variables are Metallic Color and Number of Doors. This was also confirmed in our EDA graphs above.</p>
+<p>Now, it’s generally NOT a good idea to use your ENTIRE data sample to fit the model. What we want to do is to train the model on a sample of the data. Then we’ll see how it perform outside of our training sample. This breaking up of our data set to training and test set is to evaluate the performance of our models with unseen data. Using the entire data set to build a model then using the entire data set to evaluate how good a model does is a bit of cheating or careless analytics.</p>
+</div>
+<div id="results-with-training-data" class="section level1"><h1><span class="header-section-number">5.</span>&nbsp;<strong>Results with Training Data:</strong></h1>
+<p>Here is the results using the first 1000 rows of data as training sample.</p>
+<span style="font-family: &#39;courier new&#39;, courier;"><code>## <br> ## Call: <br> ## lm(formula = Price ~ ., data = auto[train, ]) <br> ## <br> ## Residuals: <br> ## Min 1Q Median 3Q Max <br> ## -8914.6 -778.2 -22.0 751.4 6480.4 <br> ## <br> ## Coefficients: <br> ## Estimate Std. Error t value Pr(&gt;|t|) <br> ## (Intercept) 5.337e+02 1.417e+03 0.377 0.706 <br> ## Age -1.233e+02 3.184e+00 -38.725 &lt; 2e-16 *** <br> ## KM -1.726e-02 1.585e-03 -10.892 &lt; 2e-16 *** <br> ## HP 5.472e+01 7.662e+00 7.142 1.78e-12 *** <br> ## MetColor 1.581e+02 9.199e+01 1.719 0.086 . <br> ## Automatic 2.703e+02 1.982e+02 1.364 0.173 <br> ## CC -3.634e+00 7.031e-01 -5.168 2.86e-07 *** <br> ## Doors 3.828e+01 4.851e+01 0.789 0.430 <br> ## Weight 1.671e+01 1.379e+00 12.118 &lt; 2e-16 *** <br> ## FuelType1 -5.950e+02 4.366e+02 -1.363 0.173 <br> ## FuelType2 2.279e+03 5.582e+02 4.083 4.80e-05 *** <br> ## ---</code></span></div>
+<div class="section level1"><span style="font-family: &#39;courier new&#39;, courier;"><code>## Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 <br> ## <br> ## Residual standard error: 1343 on 989 degrees of freedom <br> ## Multiple R-squared: 0.8573, Adjusted R-squared: 0.8559 <br> ## F-statistic: 594.3 on 10 and 989 DF, p-value: &lt; 2.2e-16</code></span><br><p></p>
+<p>Interesting enough, the R-squared only changed nominally to 85.7% and the variables t-value also moved slightly onky. The statistically significant relationships remained the same. Good.</p>
+</div>
+<div id="model-evaluation-linear-regression" class="section level1"><h1><span class="header-section-number">6.</span>&nbsp;<strong>Model Evaluation: Linear Regression</strong></h1>
+<p>The real test of a good model is to test the model with data that it has not fitted. Here’s where the rubber meets the road. We apply our model to unseen data to see how it performs.</p>
+</div>
+<div id="prediction-using-out-of-sample-data." class="section level1"><h1><span class="header-section-number">7.</span>&nbsp;<strong>Prediction using out-of-sample data.</strong></h1>
+<p>Here are some common metrics to see how well the model predicts using various error metrics. The main takeway is we want our forecast errors to be as small as possible. The smaller the forecast error the better the model is at predicting unseen data.</p>
+<span style="font-family: &#39;courier new&#39;, courier;"><code>me <br> # mean error</code></span><br>
+<p></p>
+<p>ME is the mean error. The ideal ME is zero, which means on average the predicted value perfectly matches the actual value. This is rarely if ever the case. As in all things, we must determine what is an acceptable level of errors for our predictive analytics model and accept it. No such thing as a perfect model.</p>
+<span style="font-family: &#39;courier new&#39;, courier;"><code>rmse <br> # root mean square error</code></span><br> <span style="font-family: &#39;courier new&#39;, courier;"><code>## [1] 1283.097</code></span><br>
+<p></p>
+<p>RMSE is root mean squared error. A mean squared error(MSE) is the average of the squared differences between the predicted value and the actual value. The reason we square is to not account for sign differences(negative differences and positive differences are the same thing when squared). RMSE brings it back to our normal unit by taking the square root of MSE&gt;</p>
+<span style="font-family: &#39;courier new&#39;, courier;"><code>mape <br> # mean absolute percent error</code></span><br> <span style="font-family: &#39;courier new&#39;, courier;"><code>## [1] 9.208957</code></span><br>
+<p></p>
+<p>MAPE stands for mean absolute percent error and express the forecast errors in percentages.</p>
+<p>On average, our model had a forecast error of only 9.2%. Not bad for a first pass at this data set.</p>
+</div>
+<div id="conclusion" class="section level1"><h1><span class="header-section-number">8.</span>&nbsp;Conclusion</h1>
+<p>Hope you enjoyed this and are excited in applying predictive analytics models to your problem space.</p>
+<p>In follow on blogs I’ll use the same data set but apply it with other predictive analytics methods and models to see how it performs.</p>
+</div>
+</div> </div>
+</div><div id="insideblog">
+<div class="dscAdAppear" zsrc="PGNlbnRlcj48YnIgLz48IS0tIC8yNjcyNjQxL0JveF9BZF9CbG9nIC0tPg0KPGRpdiBpZD0nZGl2LWdwdC1hZC0xNTEyNDI4OTAyODQ2LTInIHN0eWxlPSdoZWlnaHQ6MjUwcHg7IHdpZHRoOjMwMHB4Oyc+DQo8c2NyaXB0Pg0KZ29vZ2xldGFnLmNtZC5wdXNoKGZ1bmN0aW9uKCkgeyBnb29nbGV0YWcuZGlzcGxheSgnZGl2LWdwdC1hZC0xNTEyNDI4OTAyODQ2LTInKTsgfSk7DQo8L3NjcmlwdD4NCjwvZGl2PjxiciAvPg0KPC9jZW50ZXI+"></div>
+<hr class="red">
+<p><span style="font-size: 11pt;"><strong>Most Popular Content on DSC</strong></span></p>
+<p><span style="font-size: 11pt;">To not miss this type of content in the future,&nbsp;<a href="https://www.datasciencecentral.com/profiles/blogs/check-out-our-dsc-newsletter">subscribe</a>&nbsp;to our newsletter.</span></p>
+<ul>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/fee-book-applied-stochastic-processes" target="_blank">Book: Applied Stochastic Processes</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/long-range-correlation-in-time-series-tutorial-and-case-study" target="_blank">Long-range Correlations in Time Series: Modeling, Testing, Case Study</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/how-to-automatically-determine-the-number-of-clusters-in-your-dat" target="_blank">How to Automatically Determine the Number of Clusters in your Data</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/new-data-science-cheat-sheet" target="_blank">New Machine Learning Cheat Sheet</a> | <a href="https://www.datasciencecentral.com/profiles/blogs/data-science-cheat-sheet" target="_blank">Old one</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/confidence-intervals-without-pain" target="_blank">Confidence Intervals Without Pain - With Resampling</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/advanced-machine-learning-with-basic-excel" target="_blank">Advanced Machine Learning with Basic Excel</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/decomposition-of-statistical-distributions-using-mixture-models-a" target="_blank">New Perspectives on Statistical Distributions and Deep Learning</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/fascinating-new-results-in-the-theory-of-randomness" target="_blank">Fascinating New Results in the Theory of Randomness</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/feature-selection-based-on-predictive-power" target="_blank">Fast Combinatorial Feature Selection</a></span></li>
+</ul>
+<p><span style="font-size: 11pt;"><strong>Other popular resources</strong></span></p>
+<ul>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/comprehensive-repository-of-data-science-and-ml-resources" target="_blank">Comprehensive Repository of Data Science and ML Resources</a>
+</span></li><li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/page/search?q=statistical+concepts" target="_blank">Statistical Concepts Explained in Simple English</a>
+</span></li><li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/page/search?q=in+one+pictures" target="_blank">Machine Learning Concepts Explained in One Picture</a>
+</span></li><li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/100-data-science-interview-questions-and-answers" target="_blank">100 Data Science Interview Questions and Answers</a>
+</span></li><li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/page/search?q=cheat+sheets" target="_blank">Cheat Sheets</a> |
+<a href="https://www.datasciencecentral.com/profiles/blogs/21-curated-blogs-about-deep-learning-and-data-science" target="_blank">Curated Articles</a> |
+<a href="https://www.datasciencecentral.com/page/search?q=Python" target="_blank">Search</a> |
+<a href="http://www.analytictalent.com/" target="_blank">Jobs</a> |
+<a href="https://www.datasciencecentral.com/page/search?q=courses" target="_blank">Courses</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blog/new" target="_blank">Post a Blog</a> |
+<a href="https://www.datasciencecentral.com/forum/topic/new" target="_blank">Forum Questions</a> |
+<a href="https://www.datasciencecentral.com/page/search?q=books" target="_blank">Books</a> |
+<a href="https://www.datasciencecentral.com/page/search?q=salary" target="_blank">Salaries</a> |
+<a href="https://www.bigdatanews.datasciencecentral.com/group/bdn-daily-press-releases/forum" target="_blank">News</a>
+</span></li>
+</ul>
+<p><span style="font-size: 11pt;"><strong>Archives:</strong></span> <span style="font-size: 11pt;"><a href="https://www.analyticbridge.datasciencecentral.com/page/links" target="_blank">2008-2014</a> |
+<a href="https://www.datasciencecentral.com/group/resources/forum/topics/selection-of-best-articles-from-our-past-weekly-digests" target="_blank">2015-2016</a> |
+<a href="https://www.datasciencecentral.com/page/previous-digests" target="_blank">2017-2019</a> |
+<a href="https://www.analyticbridge.datasciencecentral.com/group/data-science/forum/topics/data-science-e-book-first-draft-available-for-download" target="_blank">Book 1</a> |
+<a href="https://www.datasciencecentral.com/profiles/blogs/my-data-science-book" target="_blank">Book 2</a> |
+<a href="https://www.datasciencecentral.com/profiles/blogs/older-data-science-articles-still-of-great-value-today" target="_blank">More</a>
+</span></p>
+<p><span style="font-size: 11pt;"><strong>Follow us</strong></span>:<span style="font-size: 11pt;"><span>&nbsp;</span><a href="https://twitter.com/DataScienceCtrl">Twitter</a><span>&nbsp;</span>|<span>&nbsp;</span><a href="https://www.facebook.com/DataScienceCentralCommunity/">Facebook</a></span></p>
+</div>
+<div class="left-panel">
+<script>xg.addOnRequire(function () { xg.post('/main/viewcount/update?xn_out=json', {key: '6448529:BlogPost:259318', x: '01468ff'}); });</script> <p class="small dy-clear view-count-container">
+<span class="view-count-label">Views:</span> <span class="view-count">30175</span></p>
+<p class="small object-detail" id="tagsList" style="display:none">Tags:<br></p>
+<div class="likebox likebox-ning">
+<div class="ning-like">
+<div class="xg_lightborder like-button like-button-1">
+<a data-content-id="6448529:BlogPost:259318" data-content-type="BlogPost" data-sign-up-url="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fpredicting-car-prices-part-1-linear-regression" data-like-url="/main/like/like" data-unlike-url="/main/like/unlike" data-track="{&quot;category&quot;:&quot;Likes&quot;,&quot;action&quot;:&quot;Like&quot;,&quot;label&quot;:&quot;&quot;}" data-page-type="detail" class="xg_sprite" href="https://www.datasciencecentral.com/profiles/blogs/predicting-car-prices-part-1-linear-regression#">
+Like </a>
+</div>
+<div class="like-count">
+<a href="https://www.datasciencecentral.com/profiles/blogs/predicting-car-prices-part-1-linear-regression#" class="view-liked" _id="6448529:BlogPost:259318">15 members like this</a>
+</div>
+</div>
+</div>
+<p class="share-links clear"><a class="xg_sprite xg_sprite-share" href="https://www.datasciencecentral.com/main/sharing/share?id=6448529%253ABlogPost%253A259318">Share</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<span class="xg_tweet">
+<iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 60px; height: 20px;" title="Twitter Tweet Button" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/tweet_button.96fd96193cc66c3e11d4c5e4c7c7ec97.en.html" data-url="https://www.datasciencecentral.com/profiles/blogs/predicting-car-prices-part-1-linear-regression"></iframe>
+</span>
+<a class="post_to_facebook xj_post_to_facebook_stream dy-displaynone" href="https://www.facebook.com/share.php?u=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fpredicting-car-prices-part-1-linear-regression%3Fxg_source%3Dfacebook&amp;t=Predicting%20Car%20Prices%20Part%201%3A%20Linear%20Regression%20on%20Data%20Science%20Central" _args="{&quot;name&quot;:&quot;Predicting Car Prices Part 1: Linear Regression on Data Science Central&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/predicting-car-prices-part-1-linear-regression?xg_source=facebook&quot;,&quot;media&quot;:[{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;http:\/\/storage.ning.com\/topology\/rest\/1.0\/file\/get\/2808295684?profile=original&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/predicting-car-prices-part-1-linear-regression?xg_source=facebook&quot;},{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;http:\/\/storage.ning.com\/topology\/rest\/1.0\/file\/get\/2808295716?profile=original&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/predicting-car-prices-part-1-linear-regression?xg_source=facebook&quot;},{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;http:\/\/storage.ning.com\/topology\/rest\/1.0\/file\/get\/2808296078?profile=original&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/predicting-car-prices-part-1-linear-regression?xg_source=facebook&quot;},{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;http:\/\/storage.ning.com\/topology\/rest\/1.0\/file\/get\/2808296177?profile=original&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/predicting-car-prices-part-1-linear-regression?xg_source=facebook&quot;},{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;http:\/\/storage.ning.com\/topology\/rest\/1.0\/file\/get\/2808332709?profile=original&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/predicting-car-prices-part-1-linear-regression?xg_source=facebook&quot;}],&quot;actionLink&quot;:{&quot;text&quot;:&quot;Full Post&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/predicting-car-prices-part-1-linear-regression?xg_source=facebook&quot;},&quot;description&quot;:&quot;1.\u00a0Introduction:\nLet\u2019s walk through an example of predictive analytics using a data set that most people can relate to:prices of cars. In this case, we have a data set with historical Toyota Corolla prices along with related car attributes.\nLet\u2019s load in the Toyota Corolla file and check out the first 5 lines to see what the data set looks like:\n## Price Age KM FuelType HP MetColor Automatic CC Doors Weight  ## 1 13500 23 46986 Diesel 90 1 0 2000 3 1165  ## 2 13750 23 72937 Diesel 90 1 0 2000 3 1165  ## 3 13950 24 41711 Diesel 90 1 0 2000 3 1165  ## 4 14950 26 48000 Diesel 90 0 0 2000 3 1165  ## 5 13750 30 38500 Diesel 90 0 0 2000 3 1170\n\nPrice, Age, KM(kilometers driven), Fuel Type, HP(horsepower), Automatic or Manual, Number of Doors, and Weight in pounds are the data collected in this file for Toyota Corollas.\nIn predictive models, there is a response variable(also called dependent variable), which is the variable that we are interested in predicting.\nThe independent variables(the predictors also called features in the machine learning community) are one or more numeric variables we are using to predict the response variable. Given we are using a linear regression model, we are assuming the relationship between the independent and dependent variables follow a straight line. In future posts, we will gradually increase the complexities of our models to see if it improves predictive powers.\nBut before we start our modeling exercise, it\u2019s good to take a visual look at what we are trying to predict to see what it looks like. Since we are trying to predict Toyota Corolla prices with historical data, let\u2019s do a simple histogram plot to see the distribution of Corolla prices:\n## stat_bin: binwidth defaulted to range\/30. Use &#39;binwidth = x&#39; to adjust this.\nWe see that most used Corollas are around $10K and there are some at the tail end that over $25K. These might be newer cars with a lot of options. And there are fewer of them anyhow.\n\n\n2.\u00a0Data Transformation:\nOne of the &quot;,&quot;log&quot;:{&quot;module&quot;:&quot;profiles&quot;,&quot;page&quot;:&quot;blog&quot;,&quot;action&quot;:&quot;show&quot;},&quot;private&quot;:false,&quot;user&quot;:null,&quot;contentId&quot;:null,&quot;display&quot;:false,&quot;userMessage&quot;:&quot;&quot;,&quot;pageId&quot;:null,&quot;text&quot;:&quot;Facebook&quot;}">Facebook</a>
+</p><div class="likebox">
+<div class="facebook-like" data-content-type="BlogPost" data-content-id="6448529:BlogPost:259318" data-page-type="detail">
+<fb:like href="https://www.datasciencecentral.com/xn/detail/6448529:BlogPost:259318" layout="button_count" show_faces="false" width="450" class=" fb_iframe_widget" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=259683271111061&amp;container_width=0&amp;href=https%3A%2F%2Fwww.datasciencecentral.com%2Fxn%2Fdetail%2F6448529%3ABlogPost%3A259318&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;show_faces=false&amp;width=450"><span style="vertical-align: bottom; width: 81px; height: 20px;"><iframe name="f1c698870f67c0c" width="450px" height="1000px" data-testid="fb:like Facebook Social Plugin" title="fb:like Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/like.html" style="border: none; visibility: visible; width: 81px; height: 20px;" class=""></iframe></span></fb:like>
+</div>
+</div>
+<p></p> </div>
+<ul class="pagination smallpagination">
+<li class="left"><a href="https://www.datasciencecentral.com/profiles/blogs/predicting-car-prices-part-2-using-neural-network" title="Predicting Car Prices Part 2: Using Neural Network">&lt; Previous Post</a></li> <li class="right"><a title="Predicting Flights Delay Using Supervised Learning, Logistic Regression" href="https://www.datasciencecentral.com/profiles/blogs/predicting-flights-delay-using-supervised-learning">Next Post &gt;</a></li>
+</ul>
+</div>
+</div>
+<div class="xg_module">
+<div class="xg_module_body">
+<p id="add-comment">Comment</p>
+<div class="comment-join">
+<h3>You need to be a member of Data Science Central to add comments!</h3>
+<p><a href="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fpredicting-car-prices-part-1-linear-regression">Join Data Science Central</a></p>
+</div>
+</div>
+<div class="xg_module_body" id="comments" _numcomments="8" _scrollto="">
+<dl _id="6448529:Comment:563707" id="c_ad3" class="comment vcard xg_lightborder">
+<dt>
+<a name="first_comment"></a><a name="comment-6448529_Comment_563707" id="comment-6448529_Comment_563707"></a>
+<span class="xg_avatar"><a class="fn url" href="https://www.datasciencecentral.com/profile/ShivamSingla" title="Shivam Singla"><span class="table_img dy-avatar dy-avatar-48 "><img class="photo photo" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/genericavatar(1).png" alt=""></span></a></span> Comment by <a href="https://www.datasciencecentral.com/profile/ShivamSingla" class="fn url">Shivam Singla</a> on May 15, 2017 at 9:13am </dt>
+<dd>
+<div class="xg_user_generated"><p>Hi,</p>
+<p>You wrote just before the conclusion "Not bad for a first pass at this dataset." How can we make further improvements??</p></div> </dd>
+</dl>
+<dl _id="6448529:Comment:416741" id="c_4ef" class="comment vcard xg_lightborder">
+<dt>
+<a name="comment-6448529_Comment_416741" id="comment-6448529_Comment_416741"></a>
+<span class="xg_avatar"><a class="fn url" href="https://www.datasciencecentral.com/profile/AbhishekJaiswal" title="Abhishek Jaiswal"><span class="table_img dy-avatar dy-avatar-48 "><img class="photo photo" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/2.jpg" alt=""></span></a></span> Comment by <a href="https://www.datasciencecentral.com/profile/AbhishekJaiswal" class="fn url">Abhishek Jaiswal</a> on April 24, 2016 at 3:36am </dt>
+<dd>
+<div class="xg_user_generated"><p>That's very interesting and helpful. Looking forward to read and explore more.</p>
+<p></p>
+<p></p></div> </dd>
+</dl>
+<dl _id="6448529:Comment:355280" id="c_0b6" class="comment vcard xg_lightborder">
+<dt>
+<a name="comment-6448529_Comment_355280" id="comment-6448529_Comment_355280"></a>
+<span class="xg_avatar"><a class="fn url" href="https://www.datasciencecentral.com/profile/MahmoudParsian" title="Mahmoud Parsian"><span class="table_img dy-avatar dy-avatar-48 "><img class="photo photo" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/genericavatar(1).png" alt=""></span></a></span> Comment by <a href="https://www.datasciencecentral.com/profile/MahmoudParsian" class="fn url">Mahmoud Parsian</a> on November 28, 2015 at 4:48pm </dt>
+<dd>
+<div class="xg_user_generated"><p>Hi Peter,</p>
+<p>Thank you for sharing your thoughts on the linear regression.</p>
+<div id="data-transformation" class="section level1"><p>We have a categorical variable FuelType, which has &nbsp;types: 1) CNG 2) Diesel 3) Petrol</p>
+<span><code>summary(corolla$FuelType)</code></span></div>
+<div class="section level1"><span><code>## CNG Diesel Petrol&nbsp;<br>## 17 155 1264</code></span></div>
+<div class="section level1"></div>
+<div class="section level1"><span>Should you not to assign 3 different values for these (3 different numeric values for these types)?</span></div>
+<div class="section level1"></div>
+<div class="section level1"><span>So what values will you assign for the following types?</span></div>
+<div class="section level1"><p>18600,30,75889,Diesel,90,1,0,2000,3,1245<br>21500,27,19700,Petrol,192,0,0,1800,3,1185<br>7750,43,178858,CNG,110,0,0,1600,3,1084</p>
+<p></p>
+<p>I am a bit confused about your mapping of &nbsp;{CNG, Diesel, Petrol} to numeric values,</p>
+<p></p>
+<p>Thanks,</p>
+<p>Mahmoud</p>
+</div></div> </dd>
+</dl>
+<dl _id="6448529:Comment:348694" id="c_d21" class="comment vcard xg_lightborder">
+<dt>
+<a name="comment-6448529_Comment_348694" id="comment-6448529_Comment_348694"></a>
+<span class="xg_avatar"><a class="fn url" href="https://www.datasciencecentral.com/profile/JoeShmoe" title="Joe Shmoe"><span class="table_img dy-avatar dy-avatar-48 "><img class="photo photo" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/genericavatar(1).png" alt=""></span></a></span> Comment by <a href="https://www.datasciencecentral.com/profile/JoeShmoe" class="fn url">Joe Shmoe</a> on November 8, 2015 at 9:37am </dt>
+<dd>
+<div class="xg_user_generated"><p>Hi Peter, thank you for the great post.&nbsp; Please keep them coming!&nbsp;</p>
+<p>Could you please post the code you used to create the output?&nbsp; Thank you.</p></div> </dd>
+</dl>
+<dl _id="6448529:Comment:347213" id="c_90b" class="comment vcard xg_lightborder">
+<dt>
+<a name="comment-6448529_Comment_347213" id="comment-6448529_Comment_347213"></a>
+<span class="xg_avatar"><a class="fn url" href="https://www.datasciencecentral.com/profile/JannikHercksen" title="Jannik Hercksen"><span class="table_img dy-avatar dy-avatar-48 "><img class="photo photo" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/genericavatar(1).png" alt=""></span></a></span> Comment by <a href="https://www.datasciencecentral.com/profile/JannikHercksen" class="fn url">Jannik Hercksen</a> on November 2, 2015 at 2:19pm </dt>
+<dd>
+<div class="xg_user_generated"><p>Hi Peter,&nbsp;</p>
+<p></p>
+<p>A very interesting blog post. I am looking to do something similar for my final Econometrics research paper. I was curious as to how you got your hands on this data set. All help is greatly appreciated.&nbsp;</p>
+<p></p>
+<p>Best,</p>
+<p></p>
+<p>Jannik</p></div> </dd>
+</dl>
+<dl _id="6448529:Comment:266758" id="c_392" class="comment vcard xg_lightborder">
+<dt>
+<a name="comment-6448529_Comment_266758" id="comment-6448529_Comment_266758"></a>
+<span class="xg_avatar"><a class="fn url" href="https://www.datasciencecentral.com/profile/DavidHSaltiel" title="David H. Saltiel"><span class="table_img dy-avatar dy-avatar-48 "><img class="photo photo" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/272757923.jpg" alt=""></span></a></span> Comment by <a href="https://www.datasciencecentral.com/profile/DavidHSaltiel" class="fn url">David H. Saltiel</a> on April 13, 2015 at 5:57am </dt>
+<dd>
+<div class="xg_user_generated"><p>Thanks, Peter. Very helpful.</p>
+<p></p></div> </dd>
+</dl>
+<dl _id="6448529:Comment:266400" id="c_9a1" class="comment vcard xg_lightborder">
+<dt>
+<a name="comment-6448529_Comment_266400" id="comment-6448529_Comment_266400"></a>
+<span class="xg_avatar"><a class="fn url" href="https://www.datasciencecentral.com/profile/PeterChen811" title="Peter Chen"><span class="table_img dy-avatar dy-avatar-48 "><img class="photo photo" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/genericavatar(1).png" alt=""></span></a></span> Comment by <a href="https://www.datasciencecentral.com/profile/PeterChen811" class="fn url">Peter Chen</a> on April 12, 2015 at 6:05am </dt>
+<dd>
+<div class="xg_user_generated"><p>Hi David,</p>
+<p>I finally posted my data set on github. In fact, I've created a blog post that points to all of my data set on github. Bookmark that post since I'll continue to add more dataset to supporting future as well as past blog posts.</p>
+<p><a rel="nofollow" href="https://dataillumination.blogspot.com/2015/04/open-data-sets-for-my-blog.html?showComment=1428794518971" target="_blank">http://dataillumination.blogspot.com/2015/04/open-data-sets-for-my-...</a></p>
+<p></p>
+<p>Also, you can go back to the original blog post and find the github link since I went back and edit it to include the github link</p></div> </dd>
+</dl>
+<dl _id="6448529:Comment:263013" id="c_144" class="comment vcard xg_lightborder last-child">
+<dt>
+<a name="last_comment"></a><a name="comment-6448529_Comment_263013" id="comment-6448529_Comment_263013"></a>
+<span class="xg_avatar"><a class="fn url" href="https://www.datasciencecentral.com/profile/DavidHSaltiel" title="David H. Saltiel"><span class="table_img dy-avatar dy-avatar-48 "><img class="photo photo" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/272757923.jpg" alt=""></span></a></span> Comment by <a href="https://www.datasciencecentral.com/profile/DavidHSaltiel" class="fn url">David H. Saltiel</a> on March 30, 2015 at 4:33am </dt>
+<dd>
+<div class="xg_user_generated"><p>If you do end up posting the data on your github account, can you provide &nbsp;link?</p></div> </dd>
+</dl>
+</div>
+<div class="xg_module_foot" id="xj_comments_footer">
+<p class="left">
+<a class="xg_icon xg_icon-rss" href="https://www.datasciencecentral.com/profiles/comment/feed?attachedTo=6448529%3ABlogPost%3A259318&amp;xn_auth=no">RSS</a>
+</p>
+</div>
+</div>
+<input type="hidden" id="incrementViewCountEndpoint" value="https://www.datasciencecentral.com/profiles/blog/incrementViewCount?id=6448529%3ABlogPost%3A259318&amp;xn_out=json">
+</div>
+</div>
+<div class="xg_column xg_span-5 xg_last" id="column2">
+<div class="xj_user_info"> <div class="xg_module" id="xg_module_account">
+<div class="xg_module_body xg_signup xg_lightborder">
+<p>Welcome to<br>Data Science Central</p>
+<p class="last-child"><big><strong><a href="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fpredicting-car-prices-part-1-linear-regression">Sign Up</a></strong></big><br>or <a href="https://www.datasciencecentral.com/main/authorization/signIn?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fpredicting-car-prices-part-1-linear-regression" style="white-space:nowrap">Sign In</a></p>
+</div>
+</div>
+</div>
+<div class="xj_sidebar_content"><div class="xg_module html_module module_text xg_reset" data-module_name="text">
+<div class="xg_module_body xg_user_generated">
+<center>
+<div id="div-gpt-ad-1512428902846-6" style="height:600px; width:160px;" data-google-query-id="CI6LgpaB2ewCFUMghwodaFgJBw"><div id="google_ads_iframe_/2672641/Skyscraper_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/2672641/Skyscraper_0" title="3rd party ad content" name="google_ads_iframe_/2672641/Skyscraper_0" width="160" height="600" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" data-google-container-id="2" style="border: 0px; vertical-align: bottom;" data-load-complete="true" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/saved_resource(1).html"></iframe></div></div>
+</center>
+</div>
+</div>
+<div class="xg_module html_module module_text xg_reset" data-module_name="text">
+<div class="xg_module_head"><h2>Resources</h2></div>
+<div class="xg_module_body xg_user_generated">
+<ul>
+<li><a href="https://www.datasciencecentral.com/profiles/blogs/check-out-our-dsc-newsletter" target="_self">Subscribe to DSC Newsletter</a></li>
+<li><a href="https://www.datasciencecentral.com/profiles/blogs/new-books-and-resources-for-dsc-members">Free Books</a><br>
+<a href="https://www.datasciencecentral.com/forum"></a></li>
+<li><a href="https://www.datasciencecentral.com/forum">Forum Discussions</a><br>
+<a href="https://www.datasciencecentral.com/page/search?q=cheat+sheets"></a></li>
+<li><a href="https://www.datasciencecentral.com/page/search?q=cheat+sheets">Cheat Sheets</a><br>
+<a href="https://analytictalent.com/"></a></li>
+<li><a href="https://www.analytictalent.datasciencecentral.com/">Jobs</a></li>
+<li><a href="https://www.datasciencecentral.com/page/search?q=one+picture" target="_blank" rel="noopener">Search DSC</a></li>
+<li><a href="https://twitter.com/DataScienceCtrl" target="_self">DSC on Twitter</a></li>
+<li><a href="https://www.facebook.com/DataScienceCentralCommunity/" target="_blank" rel="noopener">DSC on Facebook</a></li>
+</ul>
+</div>
+</div>
+<div class="xg_module html_module module_text xg_reset" data-module_name="text">
+<div class="xg_module_body xg_user_generated">
+<center>
+<div id="div-gpt-ad-1512428902846-7" style="height:220px; width:220px;" data-google-query-id="CMLdgpaB2ewCFVb9hwod2-0Odw"><div id="google_ads_iframe_/2672641/Square_Box_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/2672641/Square_Box_0" title="3rd party ad content" name="google_ads_iframe_/2672641/Square_Box_0" width="220" height="220" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" data-google-container-id="3" style="border: 0px; vertical-align: bottom;" data-load-complete="true" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/saved_resource(2).html"></iframe></div></div>
+</center>
+</div>
+</div>
+<div class="xg_module module_video" data-module_name="video">
+<div class="xg_module_head">
+<h2>Videos</h2>
+</div>
+<div class="xg_module_body body_large">
+<ul class="clist">
+<li>
+<div class="ib">
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-condition-based-monitoring-analytics">
+<img src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/jpg" alt="DSC Webinar Series: Condition-Based Monitoring Analytics Techniques In Action" width="136">
+</a>
+</div>
+<div class="tb">
+<h3><a href="https://www.datasciencecentral.com/video/dsc-webinar-series-condition-based-monitoring-analytics">
+DSC Webinar Series: Condition-Based Monitoring Analytics Techniques In Action </a></h3>
+<p class="xg_lightfont">
+Added by <a class="xg_lightfont" href="https://www.datasciencecentral.com/profile/SeanWelch">Sean Welch</a> <span class="reactions">
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-condition-based-monitoring-analytics#comments" data-page-type="detail" class="xg_sprite xg_sprite-comment">0 <span class="details">Comments</span></a>
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-condition-based-monitoring-analytics" data-content-id="6448529:Video:999939" data-content-type="Video" data-sign-up-url="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fpredicting-car-prices-part-1-linear-regression" data-page-type="detail" class="xg_sprite like-link-1 like-link">
+0 <span class="details">Likes</span>
+</a>
+</span>
+</p>
+</div>
+</li>
+</ul><ul class="clist"> <li>
+<div class="ib">
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-a-collaborative-approach-to-machine-learning">
+<img src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/upload-storagef6Bx55main.jpg" alt="DSC Webinar Series: A Collaborative Approach to Machine Learning" width="136">
+</a>
+</div>
+<div class="tb">
+<h3><a href="https://www.datasciencecentral.com/video/dsc-webinar-series-a-collaborative-approach-to-machine-learning">
+DSC Webinar Series: A Collaborative Approach to Machine Learning </a></h3>
+<p class="xg_lightfont">
+Added by <a class="xg_lightfont" href="https://www.datasciencecentral.com/profile/2edcolrgc4o4b">Tim Matteson</a> <span class="reactions">
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-a-collaborative-approach-to-machine-learning#comments" data-page-type="detail" class="xg_sprite xg_sprite-comment">0 <span class="details">Comments</span></a>
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-a-collaborative-approach-to-machine-learning" data-content-id="6448529:Video:950224" data-content-type="Video" data-sign-up-url="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fpredicting-car-prices-part-1-linear-regression" data-page-type="detail" class="xg_sprite like-link-1 like-link">
+1 <span class="details">Like</span>
+</a>
+</span>
+</p>
+</div>
+</li>
+</ul><ul class="clist"> <li>
+<div class="ib">
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-reporting-made-easy-3-steps-to-a-stronger-kpi">
+<img src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/main.jpg" alt="DSC Webinar Series: Reporting Made Easy: 3 Steps to a Stronger KPI Strategy" width="136">
+</a>
+</div>
+<div class="tb">
+<h3><a href="https://www.datasciencecentral.com/video/dsc-webinar-series-reporting-made-easy-3-steps-to-a-stronger-kpi">
+DSC Webinar Series: Reporting Made Easy: 3 Steps to a Stronger KPI Strategy </a></h3>
+<p class="xg_lightfont">
+Added by <a class="xg_lightfont" href="https://www.datasciencecentral.com/profile/SeanWelch">Sean Welch</a> <span class="reactions">
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-reporting-made-easy-3-steps-to-a-stronger-kpi#comments" data-page-type="detail" class="xg_sprite xg_sprite-comment">0 <span class="details">Comments</span></a>
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-reporting-made-easy-3-steps-to-a-stronger-kpi" data-content-id="6448529:Video:990140" data-content-type="Video" data-sign-up-url="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fpredicting-car-prices-part-1-linear-regression" data-page-type="detail" class="xg_sprite like-link-1 like-link">
+1 <span class="details">Like</span>
+</a>
+</span>
+</p>
+</div>
+</li>
+</ul><ul class="clist"> </ul>
+</div>
+<div class="xg_module_foot">
+<ul>
+<li class="left"><a class="xg_sprite xg_sprite-add" href="https://www.datasciencecentral.com/video/video/chooseUploader">Add Videos</a></li>
+<li class="right"><a href="https://www.datasciencecentral.com/video/video">View All</a></li>
+<li class="right video-facebook-share" style="display:none; margin-right:10px;"><a target="_blank" href="https://www.facebook.com/share.php?u=https%3A%2F%2Fwww.datasciencecentral.com%2Fvideo%2Fvideo%3Ffrom%3Dfb"><img src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/facebook.gif" alt="Facebook"></a></li>
+<script>
+                        xg.addOnRequire(function () {
+                            x$('.module_video').mouseover(function () { x$(this).find('.video-facebook-share').show(); })
+                                    .mouseout(function () { x$(this).find('.video-facebook-share').hide(); });
+                        });
+                    </script>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="xg_foot">
+<div id="xg_footcontent">
+<div class="xj_foot_content"><p class="left">
+© 2020 &nbsp; TechTarget, Inc. &nbsp;
+Powered by<a class="poweredBy-logo" href="https://www.ning.com/" title="" alt="" rel="dofollow">
+<img class="poweredbylogo" width="87" height="15" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/Ning_MM_footer_blk@2x.png" title="Ning Website Builder" alt="Website builder | Create website | Ning.com">
+</a> </p>
+<p class="right xg_lightfont">
+<a href="https://www.datasciencecentral.com/main/embeddable/list">Badges</a> &nbsp;|&nbsp;
+<a href="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Findex%2Freport" dojotype="PromptToJoinLink" _joinprompttext="Please sign up or sign in to complete this step." _hassignup="true" _signinurl="https://www.datasciencecentral.com/main/authorization/signIn?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Findex%2Freport">Report an Issue</a> &nbsp;|&nbsp;
+<a href="https://www.techtarget.com/privacy-policy/" style="display: inline-block;">Privacy Policy</a> &nbsp;|&nbsp;
+<a href="https://www.techtarget.com/terms-of-use/" style="display: inline-block;">Terms of Service</a>
+</p>
+</div>
+</div>
+</div>
+<div id="xg_ad_below_footer" class="xg_ad xj_ad_below_footer">
+<div class="xg_module module-plain  html_module module_text xg_reset" data-module_name="text">
+<div class="xg_module_body xg_user_generated">
+<center>
+<div id="div-gpt-ad-1512428902846-0" style="height:90px; width:728px;" data-google-query-id="CKn-gpaB2ewCFVnmhwodFkUOKw"><div id="google_ads_iframe_/2672641/Bottom_Leaderboard_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/2672641/Bottom_Leaderboard_0" title="3rd party ad content" name="google_ads_iframe_/2672641/Bottom_Leaderboard_0" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" data-google-container-id="4" style="border: 0px; vertical-align: bottom;" data-load-complete="true" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/saved_resource(3).html"></iframe></div></div>
+<br></center>
+</div>
+</div>
+</div>
+</div>
+</div><iframe name="__tcfapiLocator" style="display: none;" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/saved_resource(4).html"></iframe><iframe name="__uspapiLocator" style="display: none;" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/saved_resource(5).html"></iframe>
+<div class="xj_after_content"><div id="xj_baz17246" class="xg_theme"></div>
+<div id="xg_overlay" style="display: none; top: 58px;" data-cfapps-welcome-bar-adjusted-fixed-element-original-top="0">
+<!--[if lte IE 6.5]><iframe></iframe><![endif]-->
+</div>
+<!--googleoff: all--><noscript>
+	<style type="text/css" media="screen">
+        #xg { position:relative;top:120px; }
+        #xn_bar { top:120px; }
+	</style>
+	<div class="errordesc noscript">
+		<div>
+            <h3><strong>Hello, you need to enable JavaScript to use Data Science Central.</strong></h3>
+            <p>Please check your browser settings or contact your system administrator.</p>
+			<img src="/xn_resources/widgets/index/gfx/jstrk_off.gif" alt="" height="1" width="1" />
+		</div>
+	</div>
+</noscript><!--googleon: all-->
+<script type="text/javascript" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/core.min.js.descarga"></script> <script>
+            var sources = ["https:\/\/static.ning.com\/socialnetworkmain\/widgets\/lib\/js\/jquery\/jquery.ui.widget.js?xn_version=202009260052","https:\/\/static.ning.com\/socialnetworkmain\/widgets\/lib\/js\/jquery\/jquery.iframe-transport.js?xn_version=202009260052","https:\/\/static.ning.com\/socialnetworkmain\/widgets\/lib\/js\/jquery\/jquery.fileupload.js?xn_version=202009260052","https:\/\/storage.ning.com\/topology\/rest\/1.0\/file\/get\/7384214480?profile=original&r=1597043881","https:\/\/storage.ning.com\/topology\/rest\/1.0\/file\/get\/7384211654?profile=original&r=1597044779","https:\/\/storage.ning.com\/topology\/rest\/1.0\/file\/get\/7384228270?profile=original&r=1597045086"];
+            var numSources = sources.length;
+                        var heads = document.getElementsByTagName('head');
+            var node = heads.length > 0 ? heads[0] : document.body;
+            var onloadFunctionsObj = {};
+
+            var createScriptTagFunc = function(source) {
+                var script = document.createElement('script');
+                
+                script.type = 'text/javascript';
+                                var currentOnLoad = function() {xg._loader.onLoad(source);};
+                if (script.readyState) { //for IE (including IE9)
+                    script.onreadystatechange = function() {
+                        if (script.readyState == 'complete' || script.readyState == 'loaded') {
+                            script.onreadystatechange = null;
+                            currentOnLoad();
+                        }
+                    }
+                } else {
+                   script.onerror = script.onload = currentOnLoad;
+                }
+
+                script.src = source;
+                node.appendChild(script);
+            };
+
+            for (var i = 0; i < numSources; i++) {
+                                xg._loader.loading(sources[i]);
+                createScriptTagFunc(sources[i]);
+            }
+        </script>
+<script type="text/javascript">
+if (!ning._) {ning._ = {}}
+ning._.compat = { encryptedToken: "<empty>" }
+ning._.CurrentServerTime = "2020-10-29T04:54:23+00:00";
+ning._.probableScreenName = "";
+ning._.domains = {
+    base: 'ning.com',
+    ports: { http: '80', ssl: '443' }
+};
+ning.loader.version = '202009260052'; // DEP-201028_1:ad12454 33
+djConfig.parseWidgets = false;
+</script>
+<script type="text/javascript">
+        xg.token = '';
+xg.canTweet = false;
+xg.cdnHost = 'static.ning.com';
+xg.version = '202009260052';
+xg.useMultiCdn = true;
+xg.staticRoot = 'socialnetworkmain';
+xg.xnTrackHost = null;
+    xg.cdnDefaultPolicyHost = 'static';
+    xg.cdnPolicy = [];
+xg.global = xg.global || {};
+xg.global.currentMozzle = 'profiles';
+xg.global.userCanInvite = false;
+xg.global.requestBase = '';
+xg.global.locale = 'en_US';
+xg.num_thousand_sep = ",";
+xg.num_decimal_sep = ".";
+(function() {
+    dojo.addOnLoad(function() {
+        if(window.bzplcm) { window.bzplcm.ts('hr'); window.bzplcm._profileSend(); }
+            });
+            ning.loader.require('xg.profiles.blog.show', 'xg.index.like.likeButton', 'xg.shared.PostToFacebookStreamLink', 'xg.index.facebookLike', 'xg.index.like.desktopLike', function() { xg._loader.onLoad('xnloader'); });
+    })();    </script>
+
+<script type="text/javascript">
+xg.addOnRequire(function() {
+    document.getElementById('xn_bar_menu_search').action = 'https://www.datasciencecentral.com/page/search';
+});
+
+</script>
+
+<script type="text/javascript">
+_atrk_opts = { atrk_acct:"QpAKm1aMp4Z352", domain:"datasciencecentral.com",dynamic: true};
+(function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = "https://d31qbv1cthcecs.cloudfront.net/atrk.js"; var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(as, s); })();
+</script>
+<noscript><img src="https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=QpAKm1aMp4Z352" style="display:none" height="1" width="1" alt="" /></noscript>
+
+
+<link href="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/style020170126141034-6-7.css" rel="stylesheet" type="text/css">
+<script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/script020170126141034-17.js.descarga"></script>
+
+
+<script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/as.js.descarga"></script>
+
+
+<script src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/script020171208141034-13-16.js.descarga"></script>
+
+
+<style>
+/* hr rounded red border */
+hr.red {
+    height: 1px;
+    color: #FF0000;
+    background-color: #FF0000;
+    border: none;
+}
+</style>
+<div id="tmp_insideblog" style="display:none;">
+<div class="dscAdAppear" zsrc="PGNlbnRlcj48YnIgLz48IS0tIC8yNjcyNjQxL0JveF9BZF9CbG9nIC0tPg0KPGRpdiBpZD0nZGl2LWdwdC1hZC0xNTEyNDI4OTAyODQ2LTInIHN0eWxlPSdoZWlnaHQ6MjUwcHg7IHdpZHRoOjMwMHB4Oyc+DQo8c2NyaXB0Pg0KZ29vZ2xldGFnLmNtZC5wdXNoKGZ1bmN0aW9uKCkgeyBnb29nbGV0YWcuZGlzcGxheSgnZGl2LWdwdC1hZC0xNTEyNDI4OTAyODQ2LTInKTsgfSk7DQo8L3NjcmlwdD4NCjwvZGl2PjxiciAvPg0KPC9jZW50ZXI+"></div>
+<hr class="red">
+<p><span style="font-size: 11pt;"><strong>Most Popular Content on DSC</strong></span></p>
+<p><span style="font-size: 11pt;">To not miss this type of content in the future,&nbsp;<a href="https://www.datasciencecentral.com/profiles/blogs/check-out-our-dsc-newsletter">subscribe</a>&nbsp;to our newsletter.</span></p>
+<ul>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/fee-book-applied-stochastic-processes" target="_blank">Book: Applied Stochastic Processes</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/long-range-correlation-in-time-series-tutorial-and-case-study" target="_blank">Long-range Correlations in Time Series: Modeling, Testing, Case Study</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/how-to-automatically-determine-the-number-of-clusters-in-your-dat" target="_blank">How to Automatically Determine the Number of Clusters in your Data</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/new-data-science-cheat-sheet" target="_blank">New Machine Learning Cheat Sheet</a> | <a href="https://www.datasciencecentral.com/profiles/blogs/data-science-cheat-sheet" target="_blank">Old one</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/confidence-intervals-without-pain" target="_blank">Confidence Intervals Without Pain - With Resampling</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/advanced-machine-learning-with-basic-excel" target="_blank">Advanced Machine Learning with Basic Excel</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/decomposition-of-statistical-distributions-using-mixture-models-a" target="_blank">New Perspectives on Statistical Distributions and Deep Learning</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/fascinating-new-results-in-the-theory-of-randomness" target="_blank">Fascinating New Results in the Theory of Randomness</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/feature-selection-based-on-predictive-power" target="_blank">Fast Combinatorial Feature Selection</a></span></li>
+</ul>
+<p><span style="font-size: 11pt;"><strong>Other popular resources</strong></span></p>
+<ul>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/comprehensive-repository-of-data-science-and-ml-resources" target="_blank">Comprehensive Repository of Data Science and ML Resources</a>
+</span></li><li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/page/search?q=statistical+concepts" target="_blank">Statistical Concepts Explained in Simple English</a>
+</span></li><li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/page/search?q=in+one+pictures" target="_blank">Machine Learning Concepts Explained in One Picture</a>
+</span></li><li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/100-data-science-interview-questions-and-answers" target="_blank">100 Data Science Interview Questions and Answers</a>
+</span></li><li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/page/search?q=cheat+sheets" target="_blank">Cheat Sheets</a> |
+<a href="https://www.datasciencecentral.com/profiles/blogs/21-curated-blogs-about-deep-learning-and-data-science" target="_blank">Curated Articles</a> |
+<a href="https://www.datasciencecentral.com/page/search?q=Python" target="_blank">Search</a> |
+<a href="http://www.analytictalent.com/" target="_blank">Jobs</a> |
+<a href="https://www.datasciencecentral.com/page/search?q=courses" target="_blank">Courses</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blog/new" target="_blank">Post a Blog</a> |
+<a href="https://www.datasciencecentral.com/forum/topic/new" target="_blank">Forum Questions</a> |
+<a href="https://www.datasciencecentral.com/page/search?q=books" target="_blank">Books</a> |
+<a href="https://www.datasciencecentral.com/page/search?q=salary" target="_blank">Salaries</a> |
+<a href="https://www.bigdatanews.datasciencecentral.com/group/bdn-daily-press-releases/forum" target="_blank">News</a>
+</span></li>
+</ul>
+<p><span style="font-size: 11pt;"><strong>Archives:</strong></span> <span style="font-size: 11pt;"><a href="https://www.analyticbridge.datasciencecentral.com/page/links" target="_blank">2008-2014</a> |
+<a href="https://www.datasciencecentral.com/group/resources/forum/topics/selection-of-best-articles-from-our-past-weekly-digests" target="_blank">2015-2016</a> |
+<a href="https://www.datasciencecentral.com/page/previous-digests" target="_blank">2017-2019</a> |
+<a href="https://www.analyticbridge.datasciencecentral.com/group/data-science/forum/topics/data-science-e-book-first-draft-available-for-download" target="_blank">Book 1</a> |
+<a href="https://www.datasciencecentral.com/profiles/blogs/my-data-science-book" target="_blank">Book 2</a> |
+<a href="https://www.datasciencecentral.com/profiles/blogs/older-data-science-articles-still-of-great-value-today" target="_blank">More</a>
+</span></p>
+<p><span style="font-size: 11pt;"><strong>Follow us</strong></span>:<span style="font-size: 11pt;"><span>&nbsp;</span><a href="https://twitter.com/DataScienceCtrl">Twitter</a><span>&nbsp;</span>|<span>&nbsp;</span><a href="https://www.facebook.com/DataScienceCentralCommunity/">Facebook</a></span></p>
+</div>
+<script type="text/javascript">
+if (typeof(x$) != 'undefined') {
+x$(".xg_widget_profiles_blog_show .xg_blog .postbody").after('<div id="insideblog"></div>');
+var t_insideblogCode = document.getElementById('tmp_insideblog');
+var insideblogCode = document.getElementById('insideblog');
+insideblogCode.innerHTML = t_insideblogCode.innerHTML;
+}
+</script>
+
+
+<div id="tmp_insideforum" style="display:none;">
+<div class="dscAdAppear" zsrc="PGNlbnRlcj48YnIgLz48IS0tIC8yNjcyNjQxL0JveF9BZF9Gb3J1bSAtLT4NCjxkaXYgaWQ9J2Rpdi1ncHQtYWQtMTUxMjQyODkwMjg0Ni0zJyBzdHlsZT0naGVpZ2h0OjI1MHB4OyB3aWR0aDozMDBweDsnPg0KPHNjcmlwdD4NCmdvb2dsZXRhZy5jbWQucHVzaChmdW5jdGlvbigpIHsgZ29vZ2xldGFnLmRpc3BsYXkoJ2Rpdi1ncHQtYWQtMTUxMjQyODkwMjg0Ni0zJyk7IH0pOw0KPC9zY3JpcHQ+DQo8L2Rpdj48YnIgLz4NCjwvY2VudGVyPg=="></div>
+<hr class="red">
+<p><span style="font-size: 12pt;"><strong>Most popular articles</strong></span></p><p>
+</p><ul>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/new-books-and-resources-for-dsc-members">Free Book and Resources for DSC Members</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/decomposition-of-statistical-distributions-using-mixture-models-a">New Perspectives on Statistical Distributions and Deep Learning</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/data-science-wizardry">Time series, Growth Modeling and Data Science Wizardy</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/page/search?q=statistical+concepts">Statistical Concepts Explained in Simple English</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/page/search?q=in+one+pictures">Machine Learning Concepts Explained in One Picture</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/comprehensive-repository-of-data-science-and-ml-resources">Comprehensive Repository of Data Science and ML Resources</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/advanced-machine-learning-with-basic-excel">Advanced Machine Learning with Basic Excel</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/difference-between-machine-learning-data-science-ai-deep-learning">Difference between ML, Data Science, AI, Deep Learning, and Statistics</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/my-data-science-machine-learning-and-related-articles">Selected Business Analytics, Data Science and ML articles</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/how-to-automatically-determine-the-number-of-clusters-in-your-dat">How to Automatically Determine the Number of Clusters in your Data</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blogs/fascinating-new-results-in-the-theory-of-randomness">Fascinating New Results in the Theory of Randomness</a></span></li>
+<li><span style="font-size: 11pt;">
+<a href="http://careers.analytictalent.com/jobs/products">Hire a Data Scientist</a> |
+<a href="https://www.datasciencecentral.com/page/search?q=Python">Search DSC</a> |
+<a href="http://www.analytictalent.com/">Find a Job</a></span></li>
+<li><span style="font-size: 11pt;"><a href="https://www.datasciencecentral.com/profiles/blog/new">Post a Blog</a> |
+<a href="https://www.datasciencecentral.com/forum/topic/new">Forum Questions</a></span></li>
+</ul>
+</div>
+<script type="text/javascript">
+if (typeof(x$) != 'undefined') {
+x$(".xg_widget_forum_topic_show div.discussion div.description").after('<div id="insideforum"></div>');
+var t_insideforumCode = document.getElementById('tmp_insideforum');
+var insideforumCode = document.getElementById('insideforum');
+insideforumCode.innerHTML = t_insideforumCode.innerHTML;
+}
+</script>
+
+
+<script>
+x$('li:contains("Block all emails from")').hide();
+</script>
+
+
+<script>
+x$(document).ready(function(){
+  var dashbrd = x$( "#xj_admin_menu_link" ).length
+  var pathNameLoc = window.location.pathname;
+  var pathNameSplit = pathNameLoc.split('/');
+if (dashbrd == 1) {
+x$('input.radio').removeClass('disabled').removeAttr('disabled'); //allow admins to change privacy
+};
+if (dashbrd == 0  && pathNameSplit[2] == 'blog' && pathNameSplit[3] == 'new'){
+x$('fieldset.nolegend fieldset').hide(); }; //for new blog privacy
+if (dashbrd == 0  && pathNameSplit[2] == 'blogs' && pathNameSplit[4] == 'edit') {
+  x$('#post_delete').hide(); }; //for blog remove
+if (dashbrd == 0  && pathNameSplit[1] == 'video') {
+  x$('li').has('.xg_sprite-close').hide(); }; //for videos remove
+if (dashbrd == 0  && pathNameSplit[1] == 'events') {
+  x$('li').has('.xg_sprite-close').hide(); }; //for events remove
+if (dashbrd == 0  && pathNameSplit[1] == 'profiles' && pathNameSplit[2] == 'blogs') {
+  x$('#deleteBlogPostLink').hide(); }; //for blog remove
+if (dashbrd == 0  && pathNameSplit[1] == 'forum' && pathNameSplit[2] == 'topics') {
+    x$('li').has('.xg_sprite-close').hide(); };  // for forum remove
+if (dashbrd == 0  && pathNameSplit[2] == 'settings' && pathNameSplit[3] == 'editProfileInfo'){
+x$('input#fullname').css('pointer-events','none');
+x$('#post_form input.disabled.radio').removeAttr('disabled').removeClass('disabled');
+x$('a.action-opposite').on('click', function () {
+  setTimeout(function(){
+x$('#dialog_additional_checkbox').removeAttr('checked');
+x$('p').has('#dialog_additional_checkbox').hide(); 
+    }, 100);
+});};}); // for profile edit
+</script>
+
+
+<script>
+document.querySelectorAll('a[href*="http://"]').forEach(item=>{
+let link = item.getAttribute('href');
+if(link.indexOf('https://') > -1) {
+link = link.replace('http://','');
+item.setAttribute('href', link);
+item.innerText = link;
+}
+})
+document.querySelectorAll('small').forEach(item=>{if(item.innerText === 'http://') {item.remove()}})
+document.addEventListener('DOMContentLoaded', _=>{
+const regForm = document.querySelector('.xg_widget_main_authorization_newProfile #profile_form .profile_questions');
+if(regForm !== null)  {
+document.querySelector('.button.left').setAttribute("disabled", "disabled");
+document.querySelector('.tos.right').remove();
+const form = `<div class="lf-input__wrap privacy">
+                        <div class="checking_form ">
+                       <p>
+                         <input class="xg_check__styled" type="checkbox" name="term_accept" id="termAccept" required>
+                         <label for="termAccept">* I agree to TechTarget’s <a href="https://www.techtarget.com/terms-of-use/" target="_blank">Terms of Use</a>, <a href="https://www.techtarget.com/privacy-policy/" target="_blank">Privacy Policy</a>, and the transfer of my information to the United States for processing to provide me with relevant information as described in our Privacy Policy.</label>
+                        </p>
+                      <p>
+                                        <input class="xg_check__styled" type="checkbox" name="privacy_accept" id="privacyAccept" required>
+                                        <label for="privacyAccept">* I agree to my information being processed by TechTarget and its <a href="https://www.techtarget.com/privacy-partners/" target="_blank">Partners</a> to contact me via phone, email, or other means regarding information relevant to my professional interests. I may unsubscribe at any time.</label>
+                                    </p>                                     
+                </div>                        
+               </div>`
+
+regForm.insertAdjacentHTML('afterend', form);
+
+document.querySelector('.checking_form').addEventListener('change', (e)=>{
+
+if(Array.from(document.querySelectorAll('.xg_check__styled')).filter(checkbox => checkbox.checked).length === 2) {
+document.querySelector('.button.left').removeAttribute("disabled")
+}
+else {
+document.querySelector('.button.left').setAttribute("disabled", "disabled")
+}
+}, true)
+}
+})
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{
+
+const privacyPolicy = document.querySelector('.xj_foot_content a[href*="/privacyPolicy"]');
+const termsOfService = document.querySelector('.xj_foot_content a[href*="/termsOfService"]');
+if(privacyPolicy!==null && termsOfService!==null) {
+privacyPolicy.setAttribute("href","https://www.techtarget.com/privacy-policy/")
+termsOfService.setAttribute("href","https://www.techtarget.com/terms-of-use/")
+privacyPolicy.style.display = 'inline-block'
+termsOfService.style.display = 'inline-block'
+}
+})
+</script>
+
+<style>
+#cmp-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 100; }
+  @media (min-width: 960px) {
+    #cmp-banner {
+      bottom: 20px; } }
+</style><script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (!dataLayer) {
+            return;
+        }
+        var handler = function (event) {
+            var element = event.currentTarget;
+            if (element.hasAttribute('data-track-disable')) {
+                return;
+            }
+            var options = JSON.parse(element.getAttribute('data-track'));
+            dataLayer.push({
+                'event'         : 'trackEvent',
+                'eventType'     : 'googleAnalyticsNetwork',
+                'eventCategory' : options && options.category || '',
+                'eventAction'   : options && options.action || '',
+                'eventLabel'    : options && options.label || '',
+                'eventValue'    : options && options.value || ''
+            });
+        };
+        var elements = document.querySelectorAll('[data-track]');
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].addEventListener('click', handler);
+        }
+    });
+</script>
+</div>
+
+
+<cloudflare-app app="welcome-bar" data-style="prominent" style="z-index: 1001;"><alert-message><alert-message-content>Condition-based Monitoring Analytics Techniques In Action<br>Register for our Webinar on 9/30<a class="alert-cta-button" target="_blank" href="https://dsc.news/2RUyYM0">REGISTER NOW</a></alert-message-content></alert-message><alert-dismiss role="button">×</alert-dismiss></cloudflare-app><iframe scrolling="no" frameborder="0" allowtransparency="true" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/widget_iframe.96fd96193cc66c3e11d4c5e4c7c7ec97.html" title="Twitter settings iframe" style="display: none;"></iframe><iframe id="google_osd_static_frame_6597868053696" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/saved_resource(6).html"></iframe><iframe id="rufous-sandbox" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: none;" title="Twitter analytics iframe" src="./Predicting Car Prices Part 1_ Linear Regression - Data Science Central_files/saved_resource(7).html"></iframe></body></html>
